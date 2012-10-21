@@ -1,0 +1,11 @@
+zorbus_page_add:
+    pattern:  /page/add
+    defaults: { _controller: ZorbusPageBundle:Default:add }
+zorbus_page_associate:
+    pattern:  /page/associate
+    defaults: { _controller: ZorbusPageBundle:Default:associate }
+zorbus_page_show:
+    pattern:  /page/show/{id}
+    defaults: { _controller: ZorbusPageBundle:Default:show }
+    requirements:
+        id: \d+

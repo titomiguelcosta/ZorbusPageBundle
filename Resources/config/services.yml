@@ -1,0 +1,7 @@
+parameters:
+#    zorbus_page.example.class: Zorbus\PageBundle\Example
+
+services:
+#    zorbus_page.example:
+#        class: %zorbus_page.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

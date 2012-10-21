@@ -1,0 +1,41 @@
+Zorbus\PageBundle\Entity\PageBlock:
+    type: entity
+    table: zorbus_page_page_block
+    repositoryClass: Zorbus\PageBundle\Entity\PageBlockRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        position:
+            type: integer
+            default: 1
+            nullable: true
+            gedmo:
+                - sortablePosition
+        location:
+            type: string
+            length: 255
+            nullable: false
+            gedmo:
+                - sortableGroup
+        is_enabled:
+            type: boolean
+            default: true
+            nullable: true
+    manyToOne:
+        page:
+            targetEntity: Zorbus\PageBundle\Entity\Page
+            inversedBy: page_blocks
+            joinColumn:
+                name: page_id
+                referencedColumnName: id
+                onDelete: CASCADE
+            gedmo:
+                - sortableGroup
+        block:
+            targetEntity: Zorbus\BlockBundle\Entity\Block
+            joinColumn:
+                name: block_id
+                referencedColumnName: id
+                onDelete: CASCADE

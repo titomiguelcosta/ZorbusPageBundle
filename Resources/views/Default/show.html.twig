@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>Show page {{ page }}</h1>
+    {% if blocks.left is defined %}
+        <h1>LEFT</h1>
+        {% for block in blocks.left %}
+            {{ block | raw }}
+        {% endfor %}
+    {% endif %}
+    <hr />
+    {% if blocks.right is defined %}
+        <h1>RIGHT</h1>
+        {% for block in blocks.right %}
+            {{ block | raw }}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
