@@ -7,12 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Zorbus\PageBundle\Entity\Page
  */
-class Page
+class Page extends Base\Page
 {
-    public function __toString()
-    {
-        return $this->getTitle();
-    }
     /**
      * @var integer $id
      */
@@ -76,7 +72,7 @@ class Page
     /**
      * @var boolean $is_enabled
      */
-    private $is_enabled;
+    private $enabled;
 
     /**
      * @var \DateTime $created_at
@@ -381,9 +377,9 @@ class Page
      * @param boolean $isEnabled
      * @return Page
      */
-    public function setIsEnabled($isEnabled)
+    public function setEnabled($enabled)
     {
-        $this->is_enabled = $isEnabled;
+        $this->enabled = $enabled;
 
         return $this;
     }
@@ -393,9 +389,9 @@ class Page
      *
      * @return boolean
      */
-    public function getIsEnabled()
+    public function getEnabled()
     {
-        return $this->is_enabled;
+        return $this->enabled;
     }
 
     /**

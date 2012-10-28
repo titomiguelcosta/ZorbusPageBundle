@@ -19,7 +19,7 @@ Zorbus\PageBundle\Entity\PageBlock:
             nullable: false
             gedmo:
                 - sortableGroup
-        is_enabled:
+        enabled:
             type: boolean
             default: true
             nullable: true

@@ -62,7 +62,7 @@ Zorbus\PageBundle\Entity\Page:
         user_id:
             type: integer
             nullable: true
-        is_enabled:
+        enabled:
             type: boolean
             default: true
             nullable: true

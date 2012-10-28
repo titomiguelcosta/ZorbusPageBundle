@@ -27,7 +27,7 @@ class PageBlock
     /**
      * @var boolean $is_enabled
      */
-    private $enabled;
+    private $is_enabled;
 
     /**
      * @var Zorbus\PageBundle\Entity\Page
@@ -43,7 +43,7 @@ class PageBlock
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -59,14 +59,14 @@ class PageBlock
     public function setPosition($position)
     {
         $this->position = $position;
-
+    
         return $this;
     }
 
     /**
      * Get position
      *
-     * @return integer
+     * @return integer 
      */
     public function getPosition()
     {
@@ -82,14 +82,14 @@ class PageBlock
     public function setLocation($location)
     {
         $this->location = $location;
-
+    
         return $this;
     }
 
     /**
      * Get location
      *
-     * @return string
+     * @return string 
      */
     public function getLocation()
     {
@@ -102,19 +102,19 @@ class PageBlock
      * @param boolean $isEnabled
      * @return PageBlock
      */
-    public function setEnabled($isEnabled)
+    public function setIsEnabled($isEnabled)
     {
         $this->is_enabled = $isEnabled;
-
+    
         return $this;
     }
 
     /**
      * Get is_enabled
      *
-     * @return boolean
+     * @return boolean 
      */
-    public function getEnabled()
+    public function getIsEnabled()
     {
         return $this->is_enabled;
     }
@@ -128,14 +128,14 @@ class PageBlock
     public function setPage(\Zorbus\PageBundle\Entity\Page $page = null)
     {
         $this->page = $page;
-
+    
         return $this;
     }
 
     /**
      * Get page
      *
-     * @return Zorbus\PageBundle\Entity\Page
+     * @return Zorbus\PageBundle\Entity\Page 
      */
     public function getPage()
     {
@@ -151,14 +151,14 @@ class PageBlock
     public function setBlock(\Zorbus\BlockBundle\Entity\Block $block = null)
     {
         $this->block = $block;
-
+    
         return $this;
     }
 
     /**
      * Get block
      *
-     * @return Zorbus\BlockBundle\Entity\Block
+     * @return Zorbus\BlockBundle\Entity\Block 
      */
     public function getBlock()
     {
