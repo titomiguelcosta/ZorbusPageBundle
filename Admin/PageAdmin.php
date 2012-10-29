@@ -14,8 +14,8 @@ class PageAdmin extends Admin
         $formMapper
             ->add('title')
             ->add('subtitle', null, array('required' => false))
-            ->add('enabled', null, array('required' => false))
             ->add('url')
+            ->add('enabled', null, array('required' => false))
         ;
     }
 

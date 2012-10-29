@@ -12,8 +12,8 @@ class PageBlockAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('page')
-            ->add('block')
+            ->add('page', null, array('required' => true))
+            ->add('block', null, array('group_by' => 'service', 'required' => true))
             ->add('location')
         ;
     }
