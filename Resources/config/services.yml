@@ -5,21 +5,33 @@ parameters:
     zorbus_page.page.entity.class: Zorbus\PageBundle\Entity\Page
     zorbus_page.page_block.entity.class: Zorbus\PageBundle\Entity\PageBlock
 
-    zorbus_page.page.controller.class: SonataAdminBundle:CRUD
+    zorbus_page.page.controller.class: ZorbusPageBundle:Admin\Page
     zorbus_page.page_block.controller.class: SonataAdminBundle:CRUD
 
 services:
-    sonata.admin.page.page:
+    zorbus_page.page.admin:
         class: %zorbus_page.page.admin.class%
         arguments: [~, %zorbus_page.page.entity.class%, %zorbus_page.page.controller.class%]
         calls:
             - [setTranslationDomain, [PageBundle]]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pages, label: Page }
-    sonata.admin.page.page_block:
-        class: %zorbus_page.page_block.admin.class%
-        arguments: [~, %zorbus_page.page_block.entity.class%, %zorbus_page.page_block.controller.class%]
-        calls:
-            - [setTranslationDomain, [PageBundle]]
+#    zorbus_page.block.admin:
+#        class: %zorbus_page.page_block.admin.class%
+#        arguments: [~, %zorbus_page.page_block.entity.class%, %zorbus_page.page_block.controller.class%]
+#        calls:
+#            - [setTranslationDomain, [PageBundle]]
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: Pages, label: Block to Page }
+    zorbus_page.compiler.page_themes.config:
+        class: Zorbus\PageBundle\DependencyInjection\Compiler\PageThemeCompilerConfig
+    zorbus_page.form.type.page_themes:
+        class: Zorbus\PageBundle\Form\Type\PageThemesType
+        arguments:
+            - '@zorbus_page.compiler.page_themes.config'
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Pages, label: Block to Page }
+            - { name: form.type, alias: page_themes }
+    zorbus_page.page_theme.base:
+        class: Zorbus\PageBundle\Model\PageThemeBase
+        tags:
+            - { name: zorbus_page.theme }

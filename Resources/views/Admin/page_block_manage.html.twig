@@ -1,0 +1,99 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(".available, .selected").draggable({
+            revert: 'invalid',
+            cursor: 'move',
+            containment: 'document'
+        });
+        $(".blocks").droppable({
+            accept: ".available, .selected",
+            drop: function(event, ui){
+                var draggable = $(event.srcElement)[0];
+                draggable.style.top = 0;
+                draggable.style.left = 0;
+                if ($(draggable).hasClass('alert-error')){
+                    $(draggable).append('<a class="close" href="#">x</a>');
+                }
+                $(draggable).removeClass('alert-error');
+                $(event.target).find('ul').append(draggable);
+                $.ajax({
+                    url: "{{ admin.generateUrl('pageBlockAssociate') }}",
+                    dataType: 'html',
+                    type: 'get',
+                    data: {
+                        'page_id': {{ page.id }},
+                        'block_id': $(draggable).attr('title'),
+                        'location': $(event.target).attr('title')
+                    },
+                    success: function(data)
+                    {
+                        $(draggable).addClass('alert-success');
+                        $(draggable).draggable( "disable" );
+                    }
+                });
+            }
+        });
+        $('.blocks').on('click', 'a', function(){
+            var block = $(this).parent();
+            block.removeClass('alert-success');
+            $(this).remove();
+            $.ajax({
+                    url: "{{ admin.generateUrl('pageBlockUnassociate') }}",
+                    dataType: 'html',
+                    type: 'get',
+                    data: {
+                        'page_id': {{ page.id }},
+                        'block_id': $(this).attr('title')
+                    },
+                    success: function(data)
+                    {
+                        block.addClass('alert-error');
+                        block.appendTo($('#available'));
+                        block.draggable( "enable" );
+                    }
+                });
+
+        });
+    });
+    </script>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css">
+{% endblock %}
+
+{% block title %}
+    {{ page }}
+{% endblock %}
+
+{% block sonata_admin_content %}
+    <div class="row-fluid">
+        <h2>Blocks available</h2>
+        <span></span>
+        <ul id="available">
+        {% for block in blocks %}
+                <li class="alert alert-error available span2" title="{{ block.id }}">{{ block }}</li>
+        {% endfor %}
+            </ul>
+        </div>
+    {% for area, area_name in areas %}
+        <div class="row-fluid">
+            <h2>{{ area_name }}</h2>
+            <div class="well blocks" title="{{ area }}">
+                <ul>
+            {% if page_blocks[area] is defined %}
+                {% for page_block in page_blocks[area] %}
+                        <li class="alert alert-success selected span2" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
+                {% endfor %}
+            {% endif %}
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+    {% endfor %}
+{% endblock %}
+

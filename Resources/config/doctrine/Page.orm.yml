@@ -37,10 +37,25 @@ Zorbus\PageBundle\Entity\Page:
             type: string
             length: 255
             nullable: false
-        theme:
+            unique: true
+        service:
             type: string
             length: 255
             default: layout
+            nullable: true
+        password:
+            type: string
+            length: 255
+            nullable: true
+        seo_description:
+            type: text
+            nullable: true
+        seo_keywords:
+            type: text
+            nullable: true
+        cache_ttl:
+            type: integer
+            default: 0
             nullable: true
         lft:
             type: integer

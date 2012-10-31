@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{{ page.title }}</title>
+        <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/css/bootstrap.min.css') }}" type="text/css" media="all"  />
+        <link rel="stylesheet" href="{{ asset('bundles/sonataadmin/bootstrap/css/bootstrap-responsive.min.css') }}" type="text/css" media="all" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body class="sonata-bc">
+        {% block body %}
+            <div class="row-fluid">
+            {% block left %}
+                <div class="span5">
+                {% if blocks.left is defined %}
+                    {% for block in blocks.left %}
+                        {% render 'ZorbusBlockBundle:Default:render' with {'id': block.id} %}
+                    {% endfor %}
+                {% endif %}
+                </div>
+            {% endblock left %}
+            {% block right %}
+                <div class="span7">
+                {% if blocks.right is defined %}
+                    {% for block in blocks.right %}
+                        {% render 'ZorbusBlockBundle:Default:render' with {'id': block.id} %}
+                    {% endfor %}
+                {% endif %}
+                </div>
+            {% endblock right %}
+            </div>
+        {% endblock %}
+        <div class="row-fluid">
+            {% block footer %}
+                <footer>
+                {% if blocks.footer is defined %}
+                    {% for block in blocks.footer %}
+                        {% render 'ZorbusBlockBundle:Default:render' with {'id': block.id} %}
+                    {% endfor %}
+                {% endif %}
+                </footer>
+            {% endblock footer %}
+        </div>
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

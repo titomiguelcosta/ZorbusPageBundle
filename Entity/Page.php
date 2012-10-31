@@ -528,4 +528,144 @@ class Page extends Base\Page
     {
         return $this->parent;
     }
+    /**
+     * @var string $seo_description
+     */
+    private $seo_description;
+
+    /**
+     * @var string $seo_keywords
+     */
+    private $seo_keywords;
+
+    /**
+     * @var integer $cache_ttl
+     */
+    private $cache_ttl;
+
+
+    /**
+     * Set seo_description
+     *
+     * @param string $seoDescription
+     * @return Page
+     */
+    public function setSeoDescription($seoDescription)
+    {
+        $this->seo_description = $seoDescription;
+    
+        return $this;
+    }
+
+    /**
+     * Get seo_description
+     *
+     * @return string 
+     */
+    public function getSeoDescription()
+    {
+        return $this->seo_description;
+    }
+
+    /**
+     * Set seo_keywords
+     *
+     * @param string $seoKeywords
+     * @return Page
+     */
+    public function setSeoKeywords($seoKeywords)
+    {
+        $this->seo_keywords = $seoKeywords;
+    
+        return $this;
+    }
+
+    /**
+     * Get seo_keywords
+     *
+     * @return string 
+     */
+    public function getSeoKeywords()
+    {
+        return $this->seo_keywords;
+    }
+
+    /**
+     * Set cache_ttl
+     *
+     * @param integer $cacheTtl
+     * @return Page
+     */
+    public function setCacheTtl($cacheTtl)
+    {
+        $this->cache_ttl = $cacheTtl;
+    
+        return $this;
+    }
+
+    /**
+     * Get cache_ttl
+     *
+     * @return integer 
+     */
+    public function getCacheTtl()
+    {
+        return $this->cache_ttl;
+    }
+    /**
+     * @var string $password
+     */
+    private $password;
+
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return Page
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string 
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+    /**
+     * @var string $service
+     */
+    private $service;
+
+
+    /**
+     * Set service
+     *
+     * @param string $service
+     * @return Page
+     */
+    public function setService($service)
+    {
+        $this->service = $service;
+    
+        return $this;
+    }
+
+    /**
+     * Get service
+     *
+     * @return string 
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
 }

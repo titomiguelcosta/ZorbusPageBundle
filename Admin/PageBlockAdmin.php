@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 class PageBlockAdmin extends Admin
 {
@@ -15,6 +16,7 @@ class PageBlockAdmin extends Admin
             ->add('page', null, array('required' => true))
             ->add('block', null, array('group_by' => 'service', 'required' => true))
             ->add('location')
+            ->add('position')
         ;
     }
 
@@ -24,6 +26,7 @@ class PageBlockAdmin extends Admin
             ->add('page')
             ->add('block')
             ->add('location')
+            ->add('position')
         ;
     }
 
