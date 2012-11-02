@@ -140,7 +140,7 @@
                 <ul>
             {% if page_blocks[area] is defined %}
                 {% for page_block in page_blocks[area] %}
-                        <li class="alert alert-success available span2" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
+                        <li class="alert alert-success available span2 {{ page_block.block.category | lower }}" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
                 {% endfor %}
             {% endif %}
                     </ul>
