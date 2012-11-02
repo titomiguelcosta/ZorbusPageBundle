@@ -75,6 +75,11 @@
                         block.addClass('available');
                         block.appendTo($('#available'));
                         block.draggable("enable");
+                        if ($('#'+block.attr('type')).css("opacity") < 1)
+                        {
+                            $('#'+block.attr('type')+' a').click();
+                            $('.'+block.attr('type')).show();
+                        }
                     }
                 });
 
@@ -82,10 +87,16 @@
         $('.category').click(function(event){
             event.preventDefault();
             var category = $(this).attr('id');
-            $('#available .'+category).toggle();
-            var opacity = $(this).css("opacity") > 0.5 ? 0.5 : 1;
-            $(this).css({'opacity': opacity });
+            var opacity = 0.5;
+            if ($('#available .'+category).length > 0)
+            {
+                $('#available .'+category).toggle();
+                var opacity = $(this).css("opacity") == 1 ? 0.5 : 1;
+            }
+            $(this).css({'opacity': opacity});
         });
+        $('#available li').hide();
+        $('.category').css({'opacity': 0.5});
         $('.area').click(function(event){
             event.preventDefault();
             var area = $(this).attr('id');
@@ -129,7 +140,7 @@
         <span></span>
         <ul id="available">
             {% for block in blocks %}
-                <li class="alert alert-error available span2 {{ block.category | lower }}" title="{{ block.id }}">{{ block }}</li>
+                <li class="alert alert-error available span2 {{ block.category | lower }}" type="{{ block.category | lower }}" title="{{ block.id }}">{{ block }}</li>
             {% endfor %}
         </ul>
     </div>
@@ -140,7 +151,7 @@
                 <ul>
             {% if page_blocks[area] is defined %}
                 {% for page_block in page_blocks[area] %}
-                        <li class="alert alert-success available span2 {{ page_block.block.category | lower }}" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
+                        <li class="alert alert-success available span2 {{ page_block.block.category | lower }}" type="{{ page_block.block.category | lower }}" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
                 {% endfor %}
             {% endif %}
                     </ul>
