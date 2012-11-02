@@ -1,16 +1,35 @@
 {% extends 'SonataAdminBundle::standard_layout.html.twig' %}
 
+{% block actions %}
+    <div class="sonata-actions">
+        {% if admin.hasroute('show') and admin.id(object) and admin.isGranted('VIEW', object) and admin.show|length > 0 %}
+            <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('show', object) }}">{{ 'link_action_show'|trans({}, 'SonataAdminBundle') }}</a>
+        {% endif %}
+        {% if admin.id(object) and admin.isGranted('SHOW', object) and admin.show|length > 0 %}
+            <a class="btn sonata-action-element" href="{{ path('zorbus_page_render', {'id': object.id}) }}" target="_blank">{{ 'Preview'|trans({}, 'SonataAdminBundle') }}</a>
+        {% endif %}
+        {% if admin.hasroute('history') and admin.id(object) and admin.isGranted('EDIT', object) %}
+            <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('history', object) }}">{{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}</a>
+        {% endif %}
+        {% include 'SonataAdminBundle:Core:create_button.html.twig' %}
+        {% if admin.hasroute('list') and admin.isGranted('LIST')%}
+            <a class="btn sonata-action-element" href="{{ admin.generateUrl('list') }}">{{ 'link_action_list'|trans({}, 'SonataAdminBundle') }}</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
     $(document).ready(function(){
-        $(".available, .selected").draggable({
+        $(".available").draggable({
             revert: 'invalid',
             cursor: 'move',
             containment: 'document'
         });
         $(".blocks").droppable({
-            accept: ".available, .selected",
+            accept: ".available",
+            hoverClass: "hover",
             drop: function(event, ui){
                 var draggable = $(event.srcElement)[0];
                 draggable.style.top = 0;
@@ -19,6 +38,7 @@
                     $(draggable).append('<a class="close" href="#">x</a>');
                 }
                 $(draggable).removeClass('alert-error');
+                $(draggable).removeClass('available');
                 $(event.target).find('ul').append(draggable);
                 $.ajax({
                     url: "{{ admin.generateUrl('pageBlockAssociate') }}",
@@ -32,7 +52,7 @@
                     success: function(data)
                     {
                         $(draggable).addClass('alert-success');
-                        $(draggable).draggable( "disable" );
+                        $(draggable).draggable('disable');
                     }
                 });
             }
@@ -52,10 +72,31 @@
                     success: function(data)
                     {
                         block.addClass('alert-error');
+                        block.addClass('available');
                         block.appendTo($('#available'));
-                        block.draggable( "enable" );
+                        block.draggable("enable");
                     }
                 });
+
+        });
+        $('.category').click(function(event){
+            event.preventDefault();
+            var category = $(this).attr('id');
+            $('#available .'+category).toggle();
+            var opacity = $(this).css("opacity") > 0.5 ? 0.5 : 1;
+            $(this).css({'opacity': opacity });
+        });
+        $('.area').click(function(event){
+            event.preventDefault();
+            var area = $(this).attr('id');
+            $('.area_'+area).toggle();
+            if ($(this).find('span').text() == '-')
+            {
+                $(this).find('span').text('+');
+            }else
+            {
+                $(this).find('span').text('-');
+            }
 
         });
     });
@@ -64,6 +105,11 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css">
+    <style type="text/css">
+        .hover {
+            border: 2px dashed #ddd !important;
+        }
+    </style>
 {% endblock %}
 
 {% block title %}
@@ -73,27 +119,34 @@
 {% block sonata_admin_content %}
     <div class="row-fluid">
         <h2>Blocks available</h2>
+        <div class="well well-small">
+            Categories
+            {% for category in categories %}
+                <span class="category" id="{{ category.category | lower }}"><a href="#" class="btn btn-inverse">{{ category.category }}</a></span>
+            {% endfor %}
+            <div class="clearfix"></div>
+        </div>
         <span></span>
         <ul id="available">
-        {% for block in blocks %}
-                <li class="alert alert-error available span2" title="{{ block.id }}">{{ block }}</li>
-        {% endfor %}
-            </ul>
-        </div>
+            {% for block in blocks %}
+                <li class="alert alert-error available span2 {{ block.category | lower }}" title="{{ block.id }}">{{ block }}</li>
+            {% endfor %}
+        </ul>
+    </div>
     {% for area, area_name in areas %}
         <div class="row-fluid">
-            <h2>{{ area_name }}</h2>
-            <div class="well blocks" title="{{ area }}">
+            <h2><a href="#" class="area" id="{{ area }}"><span>-</span> {{ area_name }}</a></h2>
+            <div class="well blocks area_{{ area }}" title="{{ area }}">
                 <ul>
             {% if page_blocks[area] is defined %}
                 {% for page_block in page_blocks[area] %}
-                        <li class="alert alert-success selected span2" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
+                        <li class="alert alert-success available span2" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
                 {% endfor %}
             {% endif %}
                     </ul>
                     <div class="clearfix"></div>
                 </div>
             </div>
+            <hr>
     {% endfor %}
 {% endblock %}
-

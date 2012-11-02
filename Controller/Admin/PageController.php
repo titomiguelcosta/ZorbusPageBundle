@@ -36,7 +36,13 @@ class PageController extends CRUDController
                 ->setParameter('enabled', true)
                 ->getResult();
 
-        return $this->render('ZorbusPageBundle:Admin:page_block_manage.html.twig', array('page' => $page, 'blocks' => $blocks, 'areas' => $areas, 'page_blocks' => $blocks_associated));
+        $categories = $this->getDoctrine()
+                ->getEntityManager()
+                ->createQuery('SELECT DISTINCT b.category FROM ZorbusBlockBundle:Block b WHERE b.enabled = :enabled')
+                ->setParameter('enabled', true)
+                ->getResult();
+
+        return $this->render('ZorbusPageBundle:Admin:page_block_manage.html.twig', array('object' => $page, 'page' => $page, 'blocks' => $blocks, 'areas' => $areas, 'page_blocks' => $blocks_associated, 'categories' => $categories));
     }
 
     public function pageBlockAssociateAction()
