@@ -3,13 +3,12 @@
 namespace Zorbus\PageBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
 
-    public function renderAction($id, Request $request)
+    public function renderAction($id)
     {
         $page = $this->getDoctrine()->getRepository('ZorbusPageBundle:Page')->findOneBy(array('id' => $id));
         $blocks = array();
