@@ -27,6 +27,11 @@ class DefaultController extends Controller
             $response = $this->render($service->getTemplate(), array('page' => $page, 'blocks' => $blocks));
             $response->setTtl($page->getCacheTtl());
 
+            if ($page->isRedirect())
+            {
+                return $this->redirect($page->getRedirect());
+            }
+
             return $response;
         }
 
