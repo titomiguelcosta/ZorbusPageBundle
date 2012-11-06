@@ -75,28 +75,11 @@
                         block.addClass('available');
                         block.appendTo($('#available'));
                         block.draggable("enable");
-                        if ($('#'+block.attr('type')).css("opacity") < 1)
-                        {
-                            $('#'+block.attr('type')+' a').click();
-                            $('.'+block.attr('type')).show();
-                        }
+                        $('#'+block.attr('type')+' ul').append(block);
                     }
                 });
 
         });
-        $('.category').click(function(event){
-            event.preventDefault();
-            var category = $(this).attr('id');
-            var opacity = 0.5;
-            if ($('#available .'+category).length > 0)
-            {
-                $('#available .'+category).toggle();
-                var opacity = $(this).css("opacity") == 1 ? 0.5 : 1;
-            }
-            $(this).css({'opacity': opacity});
-        });
-        $('#available li').hide();
-        $('.category').css({'opacity': 0.5});
         $('.area').click(function(event){
             event.preventDefault();
             var area = $(this).attr('id');
@@ -110,6 +93,7 @@
             }
 
         });
+        $('.available.disabled').draggable("disable");
     });
     </script>
 {% endblock %}
@@ -119,6 +103,9 @@
     <style type="text/css">
         .hover {
             border: 2px dashed #ddd !important;
+        }
+        .sonata-bc .tab-content {
+            overflow: visible !important;
         }
     </style>
 {% endblock %}
@@ -130,34 +117,40 @@
 {% block sonata_admin_content %}
     <div class="row-fluid">
         <h2>Blocks available</h2>
-        <div class="well well-small">
-            Categories
-            {% for category in categories %}
-                <span class="category" id="{{ category.category | lower }}"><a href="#" class="btn btn-inverse">{{ category.category }}</a></span>
-            {% endfor %}
-            <div class="clearfix"></div>
-        </div>
-        <span></span>
-        <ul id="available">
-            {% for block in blocks %}
-                <li class="alert alert-error available span2 {{ block.category | lower }}" type="{{ block.category | lower }}" title="{{ block.id }}">{{ block }}</li>
-            {% endfor %}
+        <ul class="nav nav-tabs">
+        {% for category in categories %}
+            <li{% if loop.first %} class="active"{% endif %}><a href="#{{ category.category | lower }}" data-toggle="tab">{{ category.category }}</a></li>
+        {% endfor %}
         </ul>
+
+        <div class="tab-content">
+        {% for category in categories %}
+            <div class="tab-pane{% if loop.first %} active{% endif %}" id="{{ category.category | lower }}">
+                <ul>
+                {% if blocks[category.category] is defined %}
+                    {% for block in blocks[category.category] %}
+                        <li class="alert alert-error available span2 {{ block.category | lower }}" type="{{ block.category | lower }}" title="{{ block.id }}">{{ block }}</li>
+                    {% endfor %}
+                {% endif %}
+                </ul>
+            </div>
+        {% endfor %}
+        </div>
     </div>
+    <hr>
     {% for area, area_name in areas %}
         <div class="row-fluid">
             <h2><a href="#" class="area" id="{{ area }}"><span>-</span> {{ area_name }}</a></h2>
-            <div class="well blocks area_{{ area }}" title="{{ area }}">
+            <div class="well well-small blocks area_{{ area }}" title="{{ area }}">
                 <ul>
-            {% if page_blocks[area] is defined %}
-                {% for page_block in page_blocks[area] %}
-                        <li class="alert alert-success available span2 {{ page_block.block.category | lower }}" type="{{ page_block.block.category | lower }}" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
-                {% endfor %}
-            {% endif %}
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
+                {% if page_blocks[area] is defined %}
+                    {% for page_block in page_blocks[area] %}
+                    <li class="alert alert-success available disabled span2 {{ page_block.block.category | lower }}" type="{{ page_block.block.category | lower }}" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
+                    {% endfor %}
+                {% endif %}
+                </ul>
+                <div class="clearfix"></div>
             </div>
-            <hr>
+        </div>
     {% endfor %}
 {% endblock %}

@@ -29,12 +29,18 @@ class PageController extends CRUDController
             $blocks_associated_ids[] = $page_block->getBlock()->getId();
         }
 
-        $blocks = $this->getDoctrine()
+        $all_blocks = $this->getDoctrine()
                 ->getEntityManager()
                 ->createQuery('SELECT b FROM ZorbusBlockBundle:Block b WHERE b.id NOT IN (:block_ids) AND b.enabled = :enabled')
                 ->setParameter('block_ids', $blocks_associated_ids)
                 ->setParameter('enabled', true)
                 ->getResult();
+
+        $blocks = array();
+        foreach ($all_blocks as $block)
+        {
+            $blocks[$block->getCategory()][] = $block;
+        }
 
         $categories = $this->getDoctrine()
                 ->getEntityManager()
