@@ -2,13 +2,16 @@
 
 namespace Zorbus\PageBundle\Model;
 
-class PageThemeBase extends PageThemeConfig {
+class PageThemeTwo extends PageThemeConfig
+{
+
     public function getService()
     {
         return array(
-            'zorbus_page.page_theme.base' => 'Base theme'
+            'zorbus_page.page_theme.two' => 'Two column'
         );
     }
+
     public function getBlocks()
     {
         return array(
@@ -17,8 +20,10 @@ class PageThemeBase extends PageThemeConfig {
             'footer' => 'Footer'
         );
     }
+
     public function getTemplate()
     {
-        return 'ZorbusPageBundle::page.html.twig';
+        return 'ZorbusPageBundle::two.html.twig';
     }
+
 }
