@@ -10,6 +10,7 @@ parameters:
 
     zorbus_page.page_theme.two.class: Zorbus\PageBundle\Model\PageThemeTwo
     zorbus_page.page_theme.three.class: Zorbus\PageBundle\Model\PageThemeThree
+    zorbus_page.router.class: Zorbus\PageBundle\Router\PageRouter
 
 services:
     zorbus_page.page.admin:
@@ -35,3 +36,8 @@ services:
         class: %zorbus_page.page_theme.three.class%
         tags:
             - { name: zorbus_page.theme }
+    zorbus_page.router:
+        class: %zorbus_page.router.class%
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: router, priority: 300 }

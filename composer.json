@@ -18,7 +18,8 @@
         "symfony/framework-bundle": ">=2.1,<2.2-dev",
         "stof/doctrine-extensions-bundle": "*",
         "doctrine/doctrine-bundle": "*",
-        "zorbus/block-bundle": "*"
+        "zorbus/block-bundle": "*",
+        "symfony-cmf/routing-extra-bundle": "dev-master"
     },
     "suggest": {
         "twig/twig": "Great template language",
