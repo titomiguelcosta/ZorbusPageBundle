@@ -77,7 +77,19 @@ class PageRouter implements RouteRepositoryInterface, RouterInterface
 
     public function generate($name, $parameters = array(), $absolute = false)
     {
-        return $this->getRouteByName($name, $parameters);
+        if (preg_match('/^zorbus_page_/', $name))
+        {
+            $id = (int) str_replace('zorbus_page_', '', $name);
+            $page = $this->em->getRepository('ZorbusPageBundle:Page')->findOneBy(array('id' => $id));
+
+            if ($page)
+            {
+                // ToDo: take into consideration if it is absolute or not and the environment
+                return $page->getUrl();
+            }
+        }
+
+        throw new RouteNotFoundException();
     }
 
     public function match($pathinfo)
