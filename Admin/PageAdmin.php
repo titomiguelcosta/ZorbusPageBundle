@@ -23,10 +23,17 @@ class PageAdmin extends Admin
                 ->add('title')
                 ->add('subtitle', null, array('required' => false))
                 ->add('url')
+                ->add('service', 'page_themes', array('required' => true, 'label' => 'Theme'))
                 ->end()
                 ->with('Configuration')
-                ->add('service', 'page_themes', array('required' => true, 'label' => 'Theme'))
-                ->add('parent')
+                ->add('parent', null, array(
+                    'class' => 'Zorbus\\PageBundle\\Entity\\Page',
+                    'multiple' => false,
+                    'expanded' => false,
+                    'required' => false,
+                    'attr' => array('class' => 'select2 span5')
+                ))
+                ->add('redirect')
                 ->add('enabled', null, array('required' => false))
                 ->end()
                 ->with('SEO', array('collapsed' => true))
@@ -62,8 +69,12 @@ class PageAdmin extends Admin
                 ->add('title')
                 ->add('subtitle')
                 ->add('url')
-                ->add('theme')
+                ->add('service')
                 ->add('parent')
+                ->add('redirect')
+                ->add('seo_description')
+                ->add('seo_keywords')
+                ->add('cache_ttl')
                 ->add('enabled')
         ;
     }
@@ -74,6 +85,17 @@ class PageAdmin extends Admin
                 ->with('title')
                 ->assertNotBlank()
                 ->assertMaxLength(array('limit' => 255))
+                ->end()
+                ->with('service')
+                ->assertNotBlank()
+                ->assertMaxLength(array('limit' => 255))
+                ->end()
+                ->with('url')
+                ->assertNotBlank()
+                ->assertRegex(array('pattern' => '/^(\/[a-z0-9_\-]+)+(#[a-z0-9]+)?$/'))
+                ->end()
+                ->with('redirect')
+                ->assertUrl()
                 ->end()
         ;
     }

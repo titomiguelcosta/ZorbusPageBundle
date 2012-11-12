@@ -100,6 +100,26 @@ class Page extends Base\Page
     private $parent;
 
     /**
+     * @var string $seo_description
+     */
+    private $seo_description;
+
+    /**
+     * @var string $seo_keywords
+     */
+    private $seo_keywords;
+
+    /**
+     * @var integer $cache_ttl
+     */
+    private $cache_ttl;
+
+    /**
+     * @var string
+     */
+    private $redirect;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -528,21 +548,6 @@ class Page extends Base\Page
     {
         return $this->parent;
     }
-    /**
-     * @var string $seo_description
-     */
-    private $seo_description;
-
-    /**
-     * @var string $seo_keywords
-     */
-    private $seo_keywords;
-
-    /**
-     * @var integer $cache_ttl
-     */
-    private $cache_ttl;
-
 
     /**
      * Set seo_description
@@ -553,14 +558,14 @@ class Page extends Base\Page
     public function setSeoDescription($seoDescription)
     {
         $this->seo_description = $seoDescription;
-    
+
         return $this;
     }
 
     /**
      * Get seo_description
      *
-     * @return string 
+     * @return string
      */
     public function getSeoDescription()
     {
@@ -576,14 +581,14 @@ class Page extends Base\Page
     public function setSeoKeywords($seoKeywords)
     {
         $this->seo_keywords = $seoKeywords;
-    
+
         return $this;
     }
 
     /**
      * Get seo_keywords
      *
-     * @return string 
+     * @return string
      */
     public function getSeoKeywords()
     {
@@ -599,14 +604,14 @@ class Page extends Base\Page
     public function setCacheTtl($cacheTtl)
     {
         $this->cache_ttl = $cacheTtl;
-    
+
         return $this;
     }
 
     /**
      * Get cache_ttl
      *
-     * @return integer 
+     * @return integer
      */
     public function getCacheTtl()
     {
@@ -627,14 +632,14 @@ class Page extends Base\Page
     public function setPassword($password)
     {
         $this->password = $password;
-    
+
         return $this;
     }
 
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -655,17 +660,40 @@ class Page extends Base\Page
     public function setService($service)
     {
         $this->service = $service;
-    
+
         return $this;
     }
 
     /**
      * Get service
      *
-     * @return string 
+     * @return string
      */
     public function getService()
     {
         return $this->service;
+    }
+
+    /**
+     * Set redirect
+     *
+     * @param string $redirect
+     * @return Page
+     */
+    public function setRedirect($redirect)
+    {
+        $this->redirect = $redirect;
+
+        return $this;
+    }
+
+    /**
+     * Get redirect
+     *
+     * @return string
+     */
+    public function getRedirect()
+    {
+        return $this->redirect;
     }
 }
