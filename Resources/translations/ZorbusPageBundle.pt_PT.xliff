@@ -143,24 +143,24 @@
                 <target>Histórico da página</target>
             </trans-unit>
             <trans-unit id="36">
-                <source></source>
-                <target></target>
+                <source>Calculator</source>
+                <target>Calculadora</target>
             </trans-unit>
             <trans-unit id="37">
-                <source></source>
-                <target></target>
+                <source>Poll</source>
+                <target>Questionário</target>
             </trans-unit>
             <trans-unit id="38">
-                <source></source>
-                <target></target>
+                <source>Faq</source>
+                <target>FAQ</target>
             </trans-unit>
             <trans-unit id="39">
-                <source></source>
-                <target></target>
+                <source>Document</source>
+                <target>Documento</target>
             </trans-unit>
             <trans-unit id="40">
-                <source></source>
-                <target></target>
+                <source>Glossary</source>
+                <target>Glossário</target>
             </trans-unit>
             <trans-unit id="41">
                 <source></source>

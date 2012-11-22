@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Zorbus\PageBundle\Entity\PageBlock
  */
-class PageBlock
+class PageBlock extends Base\PageBlock
 {
     /**
      * @var integer $id
