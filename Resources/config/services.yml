@@ -17,9 +17,9 @@ services:
         class: %zorbus_page.page.admin.class%
         arguments: [~, %zorbus_page.page.entity.class%, %zorbus_page.page.controller.class%]
         calls:
-            - [setTranslationDomain, [PageBundle]]
+            - [setTranslationDomain, [ZorbusPageBundle]]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Pages, label: Page }
+            - { name: sonata.admin, manager_type: orm, group: Pages, label: Pages }
     zorbus_page.compiler.page_themes.config:
         class: Zorbus\PageBundle\DependencyInjection\Compiler\PageThemeCompilerConfig
     zorbus_page.form.type.page_themes:

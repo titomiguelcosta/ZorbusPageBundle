@@ -17,10 +17,10 @@ file that was distributed with this source code.
             <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('show', object) }}">{{ 'link_action_show'|trans({}, 'SonataAdminBundle') }}</a>
         {% endif %}
         {% if admin.hasroute('pageBlockManage') and admin.id(object) and admin.isGranted('EDIT', object) and admin.show|length > 0 %}
-            <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('pageBlockManage', object) }}">{{ 'Associate blocks'|trans({}, 'SonataAdminBundle') }}</a>
+            <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('pageBlockManage', object) }}">{{ 'Associate blocks'|trans({}, 'ZorbusPageBundle') }}</a>
         {% endif %}
         {% if admin.id(object) and admin.isGranted('SHOW', object) and admin.show|length > 0 %}
-            <a class="btn sonata-action-element" href="{{ path('zorbus_page_' ~ object.id, {'page': object}) }}" target="_blank">{{ 'Preview'|trans({}, 'SonataAdminBundle') }}</a>
+            <a class="btn sonata-action-element" href="{{ path('zorbus_page_' ~ object.id, {'page': object}) }}" target="_blank">{{ 'Preview'|trans({}, 'ZorbusPageBundle') }}</a>
         {% endif %}
         {% if admin.hasroute('history') and admin.id(object) and admin.isGranted('EDIT', object) %}
             <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('history', object) }}">{{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}</a>

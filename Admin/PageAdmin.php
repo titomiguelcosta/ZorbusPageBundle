@@ -5,10 +5,15 @@ namespace Zorbus\PageBundle\Admin;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Validator\ErrorElement;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\MaxLength;
+use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Min;
+use Symfony\Component\Validator\Constraints\Type;
 
 class PageAdmin extends Admin
 {
@@ -20,28 +25,62 @@ class PageAdmin extends Admin
     {
         $formMapper
                 ->with('Information')
-                ->add('title')
-                ->add('subtitle', null, array('required' => false))
-                ->add('url')
-                ->add('service', 'page_themes', array('required' => true, 'label' => 'Theme'))
+                    ->add('title', null, array('constraints' => array(
+                            new NotBlank(),
+                            new MaxLength(array('limit' => 255))
+                        )
+                    ))
+                    ->add('subtitle', null, array(
+                        'required' => false,
+                        'constraints' => array(
+                            new MaxLength(array('limit' => 255))
+                        )
+                    ))
+                    ->add('url', null, array(
+                        'constraints' => array(
+                            new NotBlank(),
+                            new Regex(array('pattern' => '/^\/([a-z0-9_\-]+\/?)+(#[a-z0-9_\-]+)?$/'))
+                        )
+                    ))
+                    ->add('service', 'page_themes', array(
+                        'required' => true,
+                        'label' => 'Theme',
+                        'constraints' => array(
+                            new NotBlank(),
+                        )
+                    ))
                 ->end()
                 ->with('Configuration')
-                ->add('parent', null, array(
-                    'class' => 'Zorbus\\PageBundle\\Entity\\Page',
-                    'multiple' => false,
-                    'expanded' => false,
-                    'required' => false,
-                    'attr' => array('class' => 'select2 span5')
-                ))
-                ->add('redirect')
-                ->add('enabled', null, array('required' => false))
+                    ->add('parent', null, array(
+                        'class' => 'Zorbus\PageBundle\Entity\Page',
+                        'multiple' => false,
+                        'expanded' => false,
+                        'required' => false,
+                        'attr' => array('class' => 'select2 span5'),
+                        'constraints' => array(
+                            new Type(array(
+                                'type' => 'Zorbus\PageBundle\Entity\Page'
+                            ))
+                        )
+                    ))
+                    ->add('redirect', null, array(
+                        'constraints' => array(
+                            new Url()
+                        )
+                    ))
+                    ->add('enabled', null, array('required' => false))
                 ->end()
                 ->with('SEO', array('collapsed' => true))
-                ->add('seo_description', null, array('label' => 'Description'))
-                ->add('seo_keywords', null, array('label' => 'Keywords'))
+                    ->add('seo_description', null, array('label' => 'Description'))
+                    ->add('seo_keywords', null, array('label' => 'Keywords'))
                 ->end()
                 ->with('Cache', array('collapsed' => true))
-                ->add('cache_ttl', null, array('label' => 'Time to live in seconds'))
+                    ->add('cache_ttl', null, array(
+                        'label' => 'Cache in seconds',
+                        'constraints' => array(
+                            new Min(array('limit' => 0))
+                        )
+                    ))
                 ->end()
         ;
     }
@@ -76,27 +115,6 @@ class PageAdmin extends Admin
                 ->add('seo_keywords')
                 ->add('cache_ttl')
                 ->add('enabled')
-        ;
-    }
-
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-                ->with('title')
-                ->assertNotBlank()
-                ->assertMaxLength(array('limit' => 255))
-                ->end()
-                ->with('service')
-                ->assertNotBlank()
-                ->assertMaxLength(array('limit' => 255))
-                ->end()
-                ->with('url')
-                ->assertNotBlank()
-                ->assertRegex(array('pattern' => '/^(\/[a-z0-9_\-]+)+(#[a-z0-9]+)?$/'))
-                ->end()
-                ->with('redirect')
-                ->assertUrl()
-                ->end()
         ;
     }
 

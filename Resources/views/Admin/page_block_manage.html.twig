@@ -116,10 +116,10 @@
 
 {% block sonata_admin_content %}
     <div class="row-fluid">
-        <h2>Blocks available</h2>
+        <h2>{{ 'Blocks available' | trans({}, 'ZorbusPageBundle') }}</h2>
         <ul class="nav nav-tabs">
         {% for category in categories %}
-            <li{% if loop.first %} class="active"{% endif %}><a href="#{{ category.category | lower }}" data-toggle="tab">{{ category.category }}</a></li>
+            <li{% if loop.first %} class="active"{% endif %}><a href="#{{ category.category | lower }}" data-toggle="tab">{{ category.category | trans({}, 'ZorbusPageBundle') }}</a></li>
         {% endfor %}
         </ul>
 
@@ -129,7 +129,7 @@
                 <ul>
                 {% if blocks[category.category] is defined %}
                     {% for block in blocks[category.category] %}
-                        <li class="alert alert-error available span2 {{ block.category | lower }}" type="{{ block.category | lower }}" title="{{ block.id }}">{{ block }}</li>
+                        <li class="alert alert-error available span2 {{ block.category | lower }}" type="{{ block.category | lower }}" title="{{ block.id }}"><strong>{{ block.category | trans({}, 'ZorbusPageBundle') }}</strong>: {{ block }}</li>
                     {% endfor %}
                 {% endif %}
                 </ul>
@@ -145,7 +145,7 @@
                 <ul>
                 {% if page_blocks[area] is defined %}
                     {% for page_block in page_blocks[area] %}
-                    <li class="alert alert-success available disabled span2 {{ page_block.block.category | lower }}" type="{{ page_block.block.category | lower }}" title="{{ page_block.block.id }}">{{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
+                    <li class="alert alert-success available disabled span2 {{ page_block.block.category | lower }}" type="{{ page_block.block.category | lower }}" title="{{ page_block.block.id }}"><strong>{{ page_block.block.category | trans({}, 'ZorbusPageBundle') }}</strong>: {{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
                     {% endfor %}
                 {% endif %}
                 </ul>
