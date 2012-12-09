@@ -2,7 +2,7 @@
 
 namespace Zorbus\PageBundle\Router;
 
-use Symfony\Cmf\Component\Routing\RouteRepositoryInterface;
+use Symfony\Cmf\Component\Routing\RouteProviderInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -10,10 +10,10 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
 
-class PageRouter implements RouteRepositoryInterface, RouterInterface
+class PageRouter implements RouteProviderInterface, RouterInterface
 {
-
     protected $em;
     protected $context;
 
@@ -22,14 +22,18 @@ class PageRouter implements RouteRepositoryInterface, RouterInterface
         $this->em = $em;
     }
 
+    public function getRouteCollectionForRequest(Request $request)
+    {
+        return $this->findManyByUrl($request->getPathInfo());
+    }
+
     public function findManyByUrl($url)
     {
         $pages = $this->em->getRepository('ZorbusPageBundle:Page')->findBy(array('url' => $url));
 
         $routeCollection = new RouteCollection();
 
-        foreach ($pages as $page)
-        {
+        foreach ($pages as $page) {
             $route = new Route($page->getUrl(), array('_controller' => 'ZorbusPageBundle:Default:execute', 'page' => $page));
             $routeCollection->add('zorbus_page_' . $page->getId(), $route);
         }
@@ -37,15 +41,28 @@ class PageRouter implements RouteRepositoryInterface, RouterInterface
         return $routeCollection;
     }
 
+    public function getRoutesByNames($names, $parameters = array())
+    {
+        $routes = array();
+
+        if (!is_array($names)) {
+            $names = array($names);
+        }
+
+        foreach ($names as $name) {
+            $routes[] = $this->getRouteByName($name, $parameters);
+        }
+
+        return $routes;
+    }
+
     public function getRouteByName($name, $parameters = array())
     {
-        if (preg_match('/^zorbus_page_/', $name))
-        {
+        if (preg_match('/^zorbus_page_/', $name)) {
             $id = (int) str_replace('zorbus_page_', '', $name);
             $page = $this->em->getRepository('ZorbusPageBundle:Page')->findOneBy(array('id' => $id));
 
-            if ($page)
-            {
+            if ($page) {
                 $route = new Route($name, array('_controller' => 'ZorbusPageBundle:Default:execute', 'page' => $page));
 
                 return $route;
@@ -61,13 +78,12 @@ class PageRouter implements RouteRepositoryInterface, RouterInterface
 
         $routeCollection = new RouteCollection();
 
-        foreach ($pages as $page)
-        {
+        foreach ($pages as $page) {
             $route = new Route($page->getUrl(), array(
-                        '_controller' => 'ZorbusPageBundle:Default:execute',
-                        'page' => $page,
-                        '_route' => 'zorbus_page_' . $page->getId()
-                    ));
+                    '_controller' => 'ZorbusPageBundle:Default:execute',
+                    'page' => $page,
+                    '_route' => 'zorbus_page_' . $page->getId()
+                ));
 
             $routeCollection->add('zorbus_page_' . $page->getId(), $route);
         }
@@ -77,13 +93,11 @@ class PageRouter implements RouteRepositoryInterface, RouterInterface
 
     public function generate($name, $parameters = array(), $absolute = false)
     {
-        if (preg_match('/^zorbus_page_/', $name))
-        {
+        if (preg_match('/^zorbus_page_/', $name)) {
             $id = (int) str_replace('zorbus_page_', '', $name);
             $page = $this->em->getRepository('ZorbusPageBundle:Page')->findOneBy(array('id' => $id));
 
-            if ($page)
-            {
+            if ($page) {
                 // ToDo: take into consideration if it is absolute or not and the environment
                 return $page->getUrl();
             }
@@ -96,8 +110,7 @@ class PageRouter implements RouteRepositoryInterface, RouterInterface
     {
         $page = $this->em->getRepository('ZorbusPageBundle:Page')->findOneBy(array('url' => $pathinfo));
 
-        if ($page)
-        {
+        if ($page) {
             return array(
                 '_controller' => 'ZorbusPageBundle:Default:execute',
                 'page' => $page,
