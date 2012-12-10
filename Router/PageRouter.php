@@ -2,7 +2,7 @@
 
 namespace Zorbus\PageBundle\Router;
 
-use Symfony\Cmf\Component\Routing\RouteProviderInterface;
+use Symfony\Cmf\Component\Routing\RouteAwareInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 
-class PageRouter implements RouteProviderInterface, RouterInterface
+class PageRouter implements RouterInterface
 {
     protected $em;
     protected $context;
