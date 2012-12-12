@@ -167,8 +167,8 @@
                 <target>Editar página</target>
             </trans-unit>
             <trans-unit id="42">
-                <source></source>
-                <target></target>
+                <source>Search</source>
+                <target>Pesquisa</target>
             </trans-unit>
             <trans-unit id="43">
                 <source></source>
