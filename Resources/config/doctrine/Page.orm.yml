@@ -51,6 +51,9 @@ Zorbus\PageBundle\Entity\Page:
             type: string
             length: 255
             nullable: true
+        search:
+            type: text
+            nullable: true
         seo_description:
             type: text
             nullable: true

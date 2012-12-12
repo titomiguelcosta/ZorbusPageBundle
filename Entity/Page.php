@@ -100,6 +100,11 @@ class Page extends Base\Page
     private $parent;
 
     /**
+     * @var string $search
+     */
+    private $search;
+    
+    /**
      * @var string $seo_description
      */
     private $seo_description;
@@ -547,6 +552,29 @@ class Page extends Base\Page
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Set search
+     *
+     * @param string $search
+     * @return Page
+     */
+    public function setSearch($search)
+    {
+        $this->search = $search;
+
+        return $this;
+    }
+
+    /**
+     * Get search
+     *
+     * @return string
+     */
+    public function getSearch()
+    {
+        return $this->search;
     }
 
     /**
