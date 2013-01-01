@@ -119,7 +119,7 @@
                 <target>Esquerda</target>
             </trans-unit>
             <trans-unit id="30">
-                <source>Rgith</source>
+                <source>Right</source>
                 <target>Direita</target>
             </trans-unit>
             <trans-unit id="31">
@@ -171,8 +171,8 @@
                 <target>Pesquisa</target>
             </trans-unit>
             <trans-unit id="43">
-                <source></source>
-                <target></target>
+                <source>Block Create</source>
+                <target>Criar bloco</target>
             </trans-unit>
             <trans-unit id="44">
                 <source></source>

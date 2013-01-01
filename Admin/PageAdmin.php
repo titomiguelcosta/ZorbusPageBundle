@@ -39,7 +39,7 @@ class PageAdmin extends Admin
                     ->add('url', null, array(
                         'constraints' => array(
                             new NotBlank(),
-                            new Regex(array('pattern' => '/^\/([a-z0-9_\-]+\/?)+(#[a-z0-9_\-]+)?$/'))
+                            new Regex(array('pattern' => '/^\/([a-z0-9_\-]+\/?)*(#[a-z0-9_\-]+)?$/'))
                         )
                     ))
                     ->add('service', 'page_themes', array(
