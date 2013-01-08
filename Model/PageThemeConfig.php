@@ -15,12 +15,12 @@ abstract class PageThemeConfig
 
     public function addJavascript($file)
     {
-        $this->javascripts[ms5($file)] = (string) $file;
+        $this->javascripts[md5($file)] = (string) $file;
     }
 
     public function addStylesheet($file)
     {
-        $this->stylesheets[ms5($file)] = (string) $file;
+        $this->stylesheets[md5($file)] = (string) $file;
     }
 
     public function getJavascripts()
