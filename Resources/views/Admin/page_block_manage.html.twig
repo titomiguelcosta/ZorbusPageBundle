@@ -21,6 +21,11 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
+    jQuery.expr[":"].icontains = jQuery.expr.createPseudo(function (arg) {                                                                                                                                                                
+        return function (elem) {                                                            
+            return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;        
+        };                                                                                  
+    });
     $(document).ready(function(){
         $(".available").draggable({
             revert: 'invalid',
@@ -29,11 +34,11 @@
         });
         $("#search-filter").on('input', function(){
             var text = $("#search-filter").val();
-            if (text = ""){
-                $(".tab-pane").css('display', 'block');
+            if (text == ""){
+                $(".tab-pane li").css('display', 'block');
             }else{
-                $(".tab-pane").css('display', 'none');
-                $(".tab-pane:contains("+text+")").css("display", "block");
+                $(".tab-pane li").css('display', 'none');
+                $(".tab-pane li:icontains("+text+")").css("display", "block");
             }        
         });
         $(".blocks").droppable({
@@ -126,6 +131,9 @@
         .sonata-bc hr {
             margin: 10px 0 !important;
         }
+        #form-search {
+            margin: 0;
+        }
     </style>
 {% endblock %}
 
@@ -136,7 +144,7 @@
 {% block sonata_admin_content %}
     <div class="row-fluid">
         <h2>{{ 'Blocks available' | trans({}, 'ZorbusPageBundle') }}</h2>
-        <form class="form-search pull-right">
+        <form id="form-search" class="form-search pull-right">
             <input type="text" id="search-filter" class="input-large search-query" placeholder="Filtrar">
         </form>
         
@@ -163,8 +171,8 @@
     <hr>
     {% for area, area_name in areas %}
         <div class="row-fluid">
-            <h2><a href="#" class="area" id="{{ area }}"><span>-</span> {{ area_name }}</a></h2>
-            <div class="well well-small blocks area_{{ area }}" title="{{ area }}">
+            <h2><a href="#" class="area" id="{{ area }}"><span>+</span> {{ area_name }}</a></h2>
+            <div class="well well-small blocks area_{{ area }}" title="{{ area }}" style="display: none;">
                 <ul>
                 {% if page_blocks[area] is defined %}
                     {% for page_block in page_blocks[area] %}
