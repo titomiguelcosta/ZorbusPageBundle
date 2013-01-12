@@ -27,6 +27,15 @@
             cursor: 'move',
             containment: 'document'
         });
+        $("#search-filter").on('input', function(){
+            var text = $("#search-filter").val();
+            if (text = ""){
+                $(".tab-pane").css('display', 'block');
+            }else{
+                $(".tab-pane").css('display', 'none');
+                $(".tab-pane:contains("+text+")").css("display", "block");
+            }        
+        });
         $(".blocks").droppable({
             accept: ".available",
             hoverClass: "hover",
@@ -127,6 +136,10 @@
 {% block sonata_admin_content %}
     <div class="row-fluid">
         <h2>{{ 'Blocks available' | trans({}, 'ZorbusPageBundle') }}</h2>
+        <form class="form-search pull-right">
+            <input type="text" id="search-filter" class="input-large search-query" placeholder="Filtrar">
+        </form>
+        
         <ul class="nav nav-tabs">
         {% for category in categories %}
             <li{% if loop.first %} class="active"{% endif %}><a href="#{{ category.category | lower }}" data-toggle="tab">{{ category.category | trans({}, 'ZorbusPageBundle') }}</a></li>
