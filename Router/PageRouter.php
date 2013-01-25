@@ -29,7 +29,7 @@ class PageRouter implements RouterInterface
 
     public function findManyByUrl($url)
     {
-        $pages = $this->em->getRepository('ZorbusPageBundle:Page')->findBy(array('url' => $url));
+        $pages = $this->em->getRepository('ZorbusPageBundle:Page')->findBy(array('url' => $url, 'enabled' => true));
 
         $routeCollection = new RouteCollection();
 
@@ -108,7 +108,7 @@ class PageRouter implements RouterInterface
 
     public function match($pathinfo)
     {
-        $page = $this->em->getRepository('ZorbusPageBundle:Page')->findOneBy(array('url' => $pathinfo));
+        $page = $this->em->getRepository('ZorbusPageBundle:Page')->findOneBy(array('url' => $pathinfo, 'enabled' => true));
 
         if ($page) {
             return array(
