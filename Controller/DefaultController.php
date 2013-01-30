@@ -19,7 +19,10 @@ class DefaultController extends Controller
             $pageBlocks = $this->getDoctrine()->getRepository('ZorbusPageBundle:PageBlock')->findBy(array('page' => $page));
             foreach ($pageBlocks as $pageBlock)
             {
-                $blocks[$pageBlock->getLocation()][] = $pageBlock->getBlock();
+                $block = $pageBlock->getBlock();
+                if ($block && $block->getEnabled()){
+                    $blocks[$pageBlock->getLocation()][] = $block;
+                }
             }
 
             $service = $this->get($page->getService());
