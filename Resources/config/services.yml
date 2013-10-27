@@ -1,43 +1,52 @@
 parameters:
-    zorbus_page.page.admin.class: Zorbus\PageBundle\Admin\PageAdmin
-    zorbus_page.page_block.admin.class: Zorbus\PageBundle\Admin\PageBlockAdmin
+    zorbus.page.admin.class: Zorbus\PageBundle\Admin\PageAdmin
+    zorbus.page_block.admin.class: Zorbus\PageBundle\Admin\PageBlockAdmin
 
-    zorbus_page.page.entity.class: Zorbus\PageBundle\Entity\Page
-    zorbus_page.page_block.entity.class: Zorbus\PageBundle\Entity\PageBlock
-
-    zorbus_page.page.controller.class: ZorbusPageBundle:Admin\Page
-    zorbus_page.page_block.controller.class: SonataAdminBundle:CRUD
-
-    zorbus_page.page_theme.two.class: Zorbus\PageBundle\Model\PageThemeTwo
-    zorbus_page.page_theme.three.class: Zorbus\PageBundle\Model\PageThemeThree
-    zorbus_page.router.class: Zorbus\PageBundle\Router\PageRouter
-
+    zorbus.page.controller.class: ZorbusPageBundle:Admin
+    zorbus.page_block.controller.class: SonataAdminBundle:CRUD
+    
+    zorbus.page.router.class: Zorbus\PageBundle\Router\PageRouter
+        
+    zorbus.page.theme.compiler.config.class: Zorbus\PageBundle\DependencyInjection\Compiler\PageThemeCompilerConfig
+    zorbus.page.theme.form.type.class: Zorbus\PageBundle\Form\Type\PageThemesType
+    
+    zorbus.page.theme.two_column.class: Zorbus\PageBundle\Theme\TwoColumnTheme
+    zorbus.page.theme.two_column.enabled: true
+    zorbus.page.theme.three_column.class: Zorbus\PageBundle\Theme\ThreeColumnTheme
+    zorbus.page.theme.three_column.enabled: true
+    
 services:
-    zorbus_page.page.admin:
-        class: %zorbus_page.page.admin.class%
-        arguments: [~, %zorbus_page.page.entity.class%, %zorbus_page.page.controller.class%]
+    zorbus.page.admin:
+        class: %zorbus.page.admin.class%
+        arguments: [~, %zorbus.page.entities.page%, %zorbus.page.controller.class%]
         calls:
             - [setTranslationDomain, [ZorbusPageBundle]]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Pages, label: Pages }
-    zorbus_page.compiler.page_themes.config:
-        class: Zorbus\PageBundle\DependencyInjection\Compiler\PageThemeCompilerConfig
-    zorbus_page.form.type.page_themes:
-        class: Zorbus\PageBundle\Form\Type\PageThemesType
+    zorbus.page.theme.compiler.config:
+        class: %zorbus.page.theme.compiler.config.class%
+    zorbus.page.theme.form.type:
+        class: %zorbus.page.theme.form.type.class%
         arguments:
-            - '@zorbus_page.compiler.page_themes.config'
+            - @zorbus.page.theme.compiler.config
         tags:
-            - { name: form.type, alias: page_themes }
-    zorbus_page.page_theme.two:
-        class: %zorbus_page.page_theme.two.class%
+            - { name: form.type, alias: zorbus_page_themes }
+    zorbus.page.theme.two_column:
+        class: %zorbus.page.theme.two_column.class%
+        arguments:
+            - %zorbus.page.theme.two_column.enabled%
         tags:
-            - { name: zorbus_page.theme }
-    zorbus_page.page_theme.three:
-        class: %zorbus_page.page_theme.three.class%
+            - { name: zorbus.page.theme }
+    zorbus.page.theme.three_column:
+        class: %zorbus.page.theme.three_column.class%
+        arguments: 
+            - %zorbus.page.theme.three_column.enabled%
         tags:
-            - { name: zorbus_page.theme }
-    zorbus_page.router:
-        class: %zorbus_page.router.class%
-        arguments: ['@doctrine.orm.entity_manager']
+            - { name: zorbus.page.theme }
+    zorbus.page.router:
+        class: %zorbus.page.router.class%
+        arguments: 
+            - @doctrine.orm.entity_manager
+            - %zorbus.page.entities.page%
         tags:
-            - { name: router, priority: 300 }
+            - { name: cmf_routing.router }

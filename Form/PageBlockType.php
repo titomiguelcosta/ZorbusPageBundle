@@ -13,7 +13,7 @@ class PageBlockType extends AbstractType
         $builder
             ->add('page')
             ->add('block')
-            ->add('location')
+            ->add('slot')
         ;
     }
 
@@ -26,6 +26,6 @@ class PageBlockType extends AbstractType
 
     public function getName()
     {
-        return 'zorbus_pagebundle_pageblocktype';
+        return 'zorbus_page_page_block_type';
     }
 }

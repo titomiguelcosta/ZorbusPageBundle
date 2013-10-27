@@ -30,6 +30,6 @@ class PageType extends AbstractType
 
     public function getName()
     {
-        return 'zorbus_pagebundle_pagetype';
+        return 'zorbus_page_page_type';
     }
 }

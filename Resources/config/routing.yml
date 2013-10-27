@@ -1,5 +1,0 @@
-zorbus_page_render:
-    pattern:  /page/{id}/render
-    defaults: { _controller: ZorbusPageBundle:Default:render }
-    requirements:
-        id: \d+

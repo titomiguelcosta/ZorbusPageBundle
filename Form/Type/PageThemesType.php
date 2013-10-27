@@ -6,20 +6,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Zorbus\PageBundle\DependencyInjection\Compiler\PageThemeCompilerConfig;
 
-class PageThemesType extends AbstractType
-{
+class PageThemesType extends AbstractType {
+
     protected $pageThemesConfig;
-    public function __construct(PageThemeCompilerConfig $pageThemesConfig)
-    {
+
+    public function __construct(PageThemeCompilerConfig $pageThemesConfig) {
         $this->pageThemesConfig = $pageThemesConfig;
     }
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $themes = array();
 
-        foreach ($this->pageThemesConfig->getPages() as $page)
-        {
-            $themes = array_merge($themes, $page->getService());
+        foreach ($this->pageThemesConfig->getThemes() as $theme) {
+            $themes[$theme->getService()] = $theme->getName();
         }
 
         $resolver->setDefaults(array(
@@ -27,14 +26,12 @@ class PageThemesType extends AbstractType
         ));
     }
 
-    public function getParent()
-    {
+    public function getParent() {
         return 'choice';
     }
 
-    public function getName()
-    {
-        return 'page_themes';
+    public function getName() {
+        return 'zorbus_page_themes';
     }
 
 }

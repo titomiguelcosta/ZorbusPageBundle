@@ -2,7 +2,7 @@
     "name": "zorbus/page-bundle",
     "type": "symfony-bundle",
     "description": "A Symfony2 Page bundle",
-    "keywords": ["doctrine", "orm", "bundle", "Symfony2", "block", "page"],
+    "keywords": ["doctrine", "orm", "bundle", "Symfony2", "block", "page", "theme"],
     "homepage": "https://github.com/Zorbus",
     "license": "MIT",
     "authors": [
@@ -15,14 +15,24 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.2",
-        "symfony/framework-bundle": ">=2.1,<2.2-dev",
+        "symfony/framework-bundle": ">=2.1,<2.4-dev",
         "stof/doctrine-extensions-bundle": "*",
         "doctrine/doctrine-bundle": "*",
         "zorbus/block-bundle": "*",
-        "symfony-cmf/routing-extra-bundle": "dev-master"
+        "symfony-cmf/routing-bundle": "dev-master"
+    },
+    "require-dev": {
+        "behat/behat": "2.4.*@stable",
+        "behat/symfony2-extension": "*",
+        "behat/mink": "1.4.3",
+        "behat/mink-extension": "*",
+        "behat/mink-goutte-driver": "*",
+        "behat/mink-selenium2-driver":  "*",
+        "sanpi/behatch-contexts": "*"
     },
     "suggest": {
-        "twig/twig": "Great template language",
+        "sonata-project/admin-bundle": "For backend administration",
+        "sonata-project/doctrine-orm-admin-bundle": "Integration of doctrine with the backend administration",
         "doctrine/doctrine-fixtures-bundle": "To load fixtures data",
         "doctrine/doctrine-migrations-bundle": "To alter database schema in a secure way"
     },

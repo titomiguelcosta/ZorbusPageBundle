@@ -2,21 +2,20 @@
 
 namespace Zorbus\PageBundle\DependencyInjection\Compiler;
 
-use Zorbus\PageBundle\Model\PageThemeConfig;
+use Zorbus\PageBundle\Theme\PageThemeInterface;
 
-class PageThemeCompilerConfig
-{
+class PageThemeCompilerConfig {
 
-    protected $pages = array();
+    protected $themes = array();
 
-    public function addPageTheme(PageThemeConfig $object)
-    {
-        $this->pages[] = $object;
+    public function addTheme($theme) {
+        if ($theme instanceof PageThemeInterface && $theme->isEnabled()) {
+            $this->themes[] = $theme;
+        }
     }
 
-    public function getPages()
-    {
-        return $this->pages;
+    public function getThemes() {
+        return $this->themes;
     }
 
 }

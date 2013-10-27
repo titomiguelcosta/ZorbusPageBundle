@@ -2,14 +2,14 @@
 
 {% block actions %}
     <div class="sonata-actions">
-        {% if admin.hasroute('show') and admin.id(object) and admin.isGranted('VIEW', object) and admin.show|length > 0 %}
-            <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('show', object) }}">{{ 'link_action_show'|trans({}, 'SonataAdminBundle') }}</a>
+        {% if admin.hasroute('show') and admin.id(page) and admin.isGranted('VIEW', page) and admin.show|length > 0 %}
+            <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('show', page) }}">{{ 'link_action_show'|trans({}, 'SonataAdminBundle') }}</a>
         {% endif %}
-        {% if admin.id(object) and admin.isGranted('SHOW', object) and admin.show|length > 0 %}
-            <a class="btn sonata-action-element" href="{{ path('zorbus_page_' ~ object.id, {'page': object}) }}" target="_blank">{{ 'Preview'|trans({}, 'ZorbusPageBundle') }}</a>
+        {% if admin.id(page) and admin.isGranted('SHOW', page) and admin.show|length > 0 %}
+            <a class="btn sonata-action-element" href="{{ path('zorbus_page_' ~ page.id, {'page': page}) }}" target="_blank">{{ 'Preview'|trans({}, 'ZorbusPageBundle') }}</a>
         {% endif %}
-        {% if admin.hasroute('history') and admin.id(object) and admin.isGranted('EDIT', object) %}
-            <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('history', object) }}">{{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}</a>
+        {% if admin.hasroute('history') and admin.id(page) and admin.isGranted('EDIT', page) %}
+            <a class="btn sonata-action-element" href="{{ admin.generateObjectUrl('history', page) }}">{{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}</a>
         {% endif %}
         {% include 'SonataAdminBundle:Core:create_button.html.twig' %}
         {% if admin.hasroute('list') and admin.isGranted('LIST')%}
@@ -59,9 +59,9 @@
                     dataType: 'html',
                     type: 'get',
                     data: {
-                        'page_id': {{ page.id }},
-                        'block_id': $(draggable).attr('title'),
-                        'location': $(event.target).attr('title')
+                        'pageId': {{ page.id }},
+                        'blockId': $(draggable).attr('title'),
+                        'slot': $(event.target).attr('title')
                     },
                     success: function(data)
                     {
@@ -80,8 +80,8 @@
                     dataType: 'html',
                     type: 'get',
                     data: {
-                        'page_id': {{ page.id }},
-                        'block_id': $(this).attr('title')
+                        'pageId': {{ page.id }},
+                        'blockId': $(this).attr('title')
                     },
                     success: function(data)
                     {
@@ -98,7 +98,7 @@
             event.preventDefault();
             var area = $(this).attr('id');
             $('.area_'+area).toggle();
-            if ($(this).find('span').text() == '-')
+            if ($(this).find('span').text() === '-')
             {
                 $(this).find('span').text('+');
             }else
@@ -169,14 +169,14 @@
         </div>
     </div>
     <hr>
-    {% for area, area_name in areas %}
+    {% for area, name in areas %}
         <div class="row-fluid">
-            <h2><a href="#" class="area" id="{{ area }}"><span>+</span> {{ area_name }}</a></h2>
+            <h2><a href="#" class="area" id="{{ area }}"><span>+</span> {{ name }}</a></h2>
             <div class="well well-small blocks area_{{ area }}" title="{{ area }}" style="display: none;">
                 <ul>
-                {% if page_blocks[area] is defined %}
-                    {% for page_block in page_blocks[area] %}
-                    <li class="alert alert-success available disabled span2 {{ page_block.block.category | lower }}" type="{{ page_block.block.category | lower }}" title="{{ page_block.block.id }}"><strong>{{ page_block.block.category | trans({}, 'ZorbusPageBundle') }}</strong>: {{ page_block.block }} <a class="close" href="#" title="{{ page_block.block.id }}">x</a></li>
+                {% if pageBlocks[area] is defined %}
+                    {% for pageBlock in pageBlocks[area] %}
+                    <li class="alert alert-success available disabled span2 {{ pageBlock.block.category | lower }}" type="{{ pageBlock.block.category | lower }}" title="{{ pageBlock.block.id }}"><strong>{{ pageBlock.block.category | trans({}, 'ZorbusPageBundle') }}</strong>: {{ pageBlock.block }} <a class="close" href="#" title="{{ pageBlock.block.id }}">x</a></li>
                     {% endfor %}
                 {% endif %}
                 </ul>

@@ -29,7 +29,7 @@ class PageBlockAdmin extends Admin
                     new MaxLength(array('limit' => 255))
                 )
             ))
-            ->add('location', null, array(
+            ->add('slot', null, array(
                 'required' => true,
                 'constraints' => array(
                     new NotBlank(),
@@ -50,7 +50,7 @@ class PageBlockAdmin extends Admin
         $datagridMapper
             ->add('page')
             ->add('block')
-            ->add('location')
+            ->add('slot')
             ->add('position')
         ;
     }
@@ -60,7 +60,7 @@ class PageBlockAdmin extends Admin
         $listMapper
             ->addIdentifier('page')
             ->add('block')
-            ->add('location')
+            ->add('slot')
             ->add('position')
         ;
     }
