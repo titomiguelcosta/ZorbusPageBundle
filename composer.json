@@ -15,11 +15,11 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.2",
-        "symfony/framework-bundle": ">=2.1,<2.4-dev",
-        "stof/doctrine-extensions-bundle": "*",
-        "doctrine/doctrine-bundle": "*",
+        "symfony/framework-bundle": ">=2.1,<2.5-dev",
+        "stof/doctrine-extensions-bundle": "v1.1.0",
+        "doctrine/doctrine-bundle": "v1.2.0",
         "zorbus/block-bundle": "*",
-        "symfony-cmf/routing-bundle": "dev-master"
+        "symfony-cmf/routing-bundle": "1.1.1"
     },
     "require-dev": {
         "behat/behat": "2.4.*@stable",
