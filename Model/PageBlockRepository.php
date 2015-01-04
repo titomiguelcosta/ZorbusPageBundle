@@ -4,9 +4,9 @@ namespace Zorbus\PageBundle\Model;
 
 use Doctrine\ORM\EntityRepository;
 
-abstract class PageBlockRepository extends EntityRepository {
+class PageBlockRepository extends EntityRepository {
 
-    public function getByPageIdWithBlocks($pageId) {
+    public function getByPageWithBlocks($pageId) {
         return $this
                         ->createQueryBuilder('pb')
                         ->join('pb.page', 'p')

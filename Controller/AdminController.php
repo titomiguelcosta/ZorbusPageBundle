@@ -3,34 +3,35 @@
 namespace Zorbus\PageBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController;
-use Zorbus\PageBundle\Entity\PageBlock;
-use Zorbus\PageBundle\Entity\Page;
+use Zorbus\PageBundle\Model\PageBlock;
+use Zorbus\PageBundle\Model\Page;
 use Zorbus\BlockBundle\Entity\Block;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 
 class AdminController extends CRUDController {
 
-    public function pageBlockManageAction($pageId) {
+    public function pageBlockManageAction($id) {
         $page = $this
                 ->getDoctrine()
-                ->getRepository('ZorbusPageBundle:Page')
-                ->findOneBy(array('id' => $pageId));
+                ->getRepository($this->container->getParameter('zorbus.page.entities.page'))
+                ->findOneBy(array('id' => $id));
 
         if (!$page instanceof Page) {
             throw $this->createNotFoundException('Page does not exist');
         }
 
-        $areas = $this->get($page->getService())->getBlocks();
+        $slots = $this->get($page->getTheme())->getSlots();
 
         $pageBlocks = $this
                 ->getDoctrine()
-                ->getRepository('ZorbusPageBundle:PageBlock')
-                ->getByPageWithBlocks($pageId);
+                ->getRepository($this->container->getParameter('zorbus.page.entities.page_block'))
+                ->getByPageWithBlocks($id);
 
         $associatedPageBlocks = array();
-        $associatedBlocksIds = array(0);
+        $associatedBlocksIds = array();
         foreach ($pageBlocks as $pageBlock) {
             $associatedPageBlocks[$pageBlock->getSlot()][] = $pageBlock;
             $associatedBlocksIds[] = $pageBlock->getBlock()->getId();
@@ -39,7 +40,7 @@ class AdminController extends CRUDController {
         $blocks = $this
                 ->getDoctrine()
                 ->getRepository('ZorbusBlockBundle:Block')
-                ->getEnabledUnassociatedBlocks($associatedBlocksIds);
+                ->getEnabledUnassociatedBlocks(0 === count($associatedBlocksIds) ? [0] : $associatedBlocksIds);
 
         $unassociatedBlocks = array();
         foreach ($blocks as $block) {
@@ -51,13 +52,19 @@ class AdminController extends CRUDController {
                 ->getRepository('ZorbusBlockBundle:Block')
                 ->getEnabledCategories();
 
-        return $this->render('ZorbusPageBundle:Admin:pageBlockManage.html.twig', array('page' => $page, 'unassociatedBlocks' => $unassociatedBlocks, 'areas' => $areas, 'pageBlocks' => $associatedPageBlocks, 'categories' => $blockCategories));
+        return $this->render('ZorbusPageBundle:Admin:pageBlockManage.html.twig', array(
+            'page' => $page,
+            'unassociatedBlocks' => $unassociatedBlocks,
+            'slots' => $slots,
+            'pageBlocks' => $associatedPageBlocks,
+            'categories' => $blockCategories
+        ));
     }
 
-    public function pageBlockAssociateAction() {
-        $pageId = $this->getRequest()->query->get('pageId');
-        $blockId = $this->getRequest()->query->get('blockId');
-        $slot = $this->getRequest()->query->get('slot');
+    public function pageBlockAssociateAction(Request $request) {
+        $pageId = $request->query->get('pageId');
+        $blockId = $request->query->get('blockId');
+        $slot = $request->query->get('slot');
 
         $page = $this->getDoctrine()->getRepository('ZorbusPageBundle:Page')->find($pageId);
         $block = $this->getDoctrine()->getRepository('ZorbusBlockBundle:Block')->find($blockId);
@@ -75,30 +82,32 @@ class AdminController extends CRUDController {
         }
 
         if (!$pageBlock instanceof PageBlock) {
-            $pageBlock = new PageBlock();
+            $entity = $this->container->getParameter('zorbus.page.entities.page_block');
+            $pageBlock = new $entity();
         }
+
         $pageBlock->setPage($page);
         $pageBlock->setBlock($block);
         $pageBlock->setSlot($slot);
         $pageBlock->setEnabled(true);
 
-        $this->getDoctrine()->getEntityManager()->persist($pageBlock);
-        $this->getDoctrine()->getEntityManager()->flush();
+        $this->getDoctrine()->getManager()->persist($pageBlock);
+        $this->getDoctrine()->getManager()->flush();
 
         return new JsonResponse(array('code' => 200, 'message' => 'Block associated to the page.'));
     }
 
-    public function pageBlockUnassociateAction() {
-        $pageId = $this->getRequest()->query->get('pageId');
-        $blockId = $this->getRequest()->query->get('blockId');
+    public function pageBlockUnassociateAction(Request $request) {
+        $pageId = $request->query->get('pageId');
+        $blockId = $request->query->get('blockId');
 
         try {
             $page = $this->getDoctrine()->getRepository('ZorbusPageBundle:Page')->find($pageId);
             $block = $this->getDoctrine()->getRepository('ZorbusBlockBundle:Block')->find($blockId);
             $pageBlock = $this->getDoctrine()->getRepository('ZorbusPageBundle:PageBlock')->findOneBy(array('page' => $page, 'block' => $block));
 
-            $this->getDoctrine()->getEntityManager()->remove($pageBlock);
-            $this->getDoctrine()->getEntityManager()->flush();
+            $this->getDoctrine()->getManager()->remove($pageBlock);
+            $this->getDoctrine()->getManager()->flush();
         } catch (\Exception $e) {
             return new JsonResponse(array('code' => 500, 'message' => $e->getMessage()), 500);
         }

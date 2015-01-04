@@ -4,7 +4,7 @@ namespace Zorbus\PageBundle\Model;
 
 use Doctrine\ORM\EntityRepository;
 
-abstract class PageRepository extends EntityRepository {
+class PageRepository extends EntityRepository {
 
     public function getBlocksByPageId($pageId) {
         $pageBlocks = $this

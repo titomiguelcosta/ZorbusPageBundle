@@ -94,10 +94,10 @@
                 });
 
         });
-        $('.area').click(function(event){
+        $('.slot').click(function(event){
             event.preventDefault();
-            var area = $(this).attr('id');
-            $('.area_'+area).toggle();
+            var slot = $(this).attr('id');
+            $('.slot_'+slot).toggle();
             if ($(this).find('span').text() === '-')
             {
                 $(this).find('span').text('+');
@@ -158,8 +158,8 @@
         {% for category in categories %}
             <div class="tab-pane{% if loop.first %} active{% endif %}" id="{{ category.category | lower }}">
                 <ul>
-                {% if blocks[category.category] is defined %}
-                    {% for block in blocks[category.category] %}
+                {% if unassociatedBlocks[category.category] is defined %}
+                    {% for block in unassociatedBlocks[category.category] %}
                         <li class="alert alert-error available span2 {{ block.category | lower }}" type="{{ block.category | lower }}" title="{{ block.id }}"><strong>{{ block.category | trans({}, 'ZorbusPageBundle') }}</strong>: {{ block }}</li>
                     {% endfor %}
                 {% endif %}
@@ -169,13 +169,13 @@
         </div>
     </div>
     <hr>
-    {% for area, name in areas %}
+    {% for slot, name in slots %}
         <div class="row-fluid">
-            <h2><a href="#" class="area" id="{{ area }}"><span>+</span> {{ name }}</a></h2>
-            <div class="well well-small blocks area_{{ area }}" title="{{ area }}" style="display: none;">
+            <h2><a href="#" class="slot" id="{{ slot }}"><span>+</span> {{ name }}</a></h2>
+            <div class="well well-small blocks slot_{{ slot }}" title="{{ slot }}" style="display: none;">
                 <ul>
-                {% if pageBlocks[area] is defined %}
-                    {% for pageBlock in pageBlocks[area] %}
+                {% if pageBlocks[slot] is defined %}
+                    {% for pageBlock in pageBlocks[slot] %}
                     <li class="alert alert-success available disabled span2 {{ pageBlock.block.category | lower }}" type="{{ pageBlock.block.category | lower }}" title="{{ pageBlock.block.id }}"><strong>{{ pageBlock.block.category | trans({}, 'ZorbusPageBundle') }}</strong>: {{ pageBlock.block }} <a class="close" href="#" title="{{ pageBlock.block.id }}">x</a></li>
                     {% endfor %}
                 {% endif %}

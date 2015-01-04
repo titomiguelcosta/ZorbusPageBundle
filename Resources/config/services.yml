@@ -14,7 +14,7 @@ parameters:
     zorbus.page.theme.two_column.enabled: true
     zorbus.page.theme.three_column.class: Zorbus\PageBundle\Theme\ThreeColumnTheme
     zorbus.page.theme.three_column.enabled: true
-    
+
 services:
     zorbus.page.admin:
         class: %zorbus.page.admin.class%

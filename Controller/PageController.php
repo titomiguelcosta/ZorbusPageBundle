@@ -9,8 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Zorbus\PageBundle\Model\Page;
 use Zorbus\PageBundle\Model\PageBlock;
-use Zorbus\BlockBundle\Model\Block;
+use Zorbus\BlockBundle\Entity\Block;
 use Zorbus\PageBundle\Theme\PageThemeInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class PageController extends Controller {
 
@@ -24,7 +25,7 @@ class PageController extends Controller {
      * @Route("/page/{pageSlug}/render", name="page_render")
      * @Method({"GET"})
      */
-    public function renderAction($pageSlug) {
+    public function renderAction(Request $request, $pageSlug) {
         $pageEntityName = $this->container->getParameter('zorbus.page.entities.page');
         $pageBlockEntityName = $this->container->getParameter('zorbus.page.entities.page_block');
         
@@ -44,7 +45,7 @@ class PageController extends Controller {
             $pageBlocks = $this
                     ->getDoctrine()
                     ->getRepository($pageBlockEntityName)
-                    ->getByPageIdWithBlocks($page->getId());
+                    ->getByPageWithBlocks($page->getId());
             
             foreach ($pageBlocks as $pageBlock) {
                 /** @var Block */
@@ -58,7 +59,12 @@ class PageController extends Controller {
             $theme = $this->get($page->getTheme());
 
             /** @var Response */
-            $response = $this->render($theme->getTemplate(), array('page' => $page, 'blocks' => $blocks, 'theme' => $theme, 'request' => $this->getRequest()));
+            $response = $this->render($theme->getTemplate(), array(
+                'page' => $page,
+                'blocks' => $blocks,
+                'theme' => $theme,
+                'request' => $request
+            ));
             $response->setTtl($page->getCacheTtl());
 
             return $response;
@@ -73,7 +79,7 @@ class PageController extends Controller {
      * @return type
      * @throws type
      */
-    public function executeAction(Page $page = null) {
-        return $this->renderAction($page->getSlug());
+    public function executeAction(Request $request, Page $page = null) {
+        return $this->renderAction($request, $page->getSlug());
     }
 }

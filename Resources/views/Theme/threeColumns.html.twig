@@ -18,7 +18,7 @@
                 <header class="span12">
                 {% if blocks.header is defined %}
                     {% for block in blocks.header %}
-                        {% render 'ZorbusBlockBundle:Default:render' with {'block': block, 'page': page, 'request': request} %}
+                        {% render(controller('ZorbusBlockBundle:Default:render', {'block': block, 'page': page, 'request': request})) %}
                     {% endfor %}
                 {% endif %}
                 </header>
@@ -32,7 +32,7 @@
                         <div class="span3">
                         {% if blocks.left is defined %}
                             {% for block in blocks.left %}
-                                {% render 'ZorbusBlockBundle:Default:render' with {'block': block, 'page': page, 'request': request} %}
+                                {% render(controller('ZorbusBlockBundle:Default:render', {'block': block, 'page': page, 'request': request})) %}
                             {% endfor %}
                         {% endif %}
                         </div>
@@ -41,7 +41,7 @@
                         <div class="span6">
                         {% if blocks.middle is defined %}
                             {% for block in blocks.middle %}
-                                {% render 'ZorbusBlockBundle:Default:render' with {'block': block, 'page': page, 'request': request} %}
+                                {% render(controller('ZorbusBlockBundle:Default:render', {'block': block, 'page': page, 'request': request})) %}
                             {% endfor %}
                         {% endif %}
                         </div>
@@ -50,7 +50,7 @@
                         <div class="span3">
                         {% if blocks.right is defined %}
                             {% for block in blocks.right %}
-                                {% render 'ZorbusBlockBundle:Default:render' with {'block': block, 'page': page, 'request': request} %}
+                                {% render(controller('ZorbusBlockBundle:Default:render', {'block': block, 'page': page, 'request': request})) %}
                             {% endfor %}
                         {% endif %}
                         </div>
@@ -63,7 +63,7 @@
                 <footer class="span12">
                 {% if blocks.footer is defined %}
                     {% for block in blocks.footer %}
-                        {% render 'ZorbusBlockBundle:Default:render' with {'block': block, 'page': page, 'request': request} %}
+                        {% render(controller('ZorbusBlockBundle:Default:render', {'block': block, 'page': page, 'request': request})) %}
                     {% endfor %}
                 {% endif %}
                 </footer>
