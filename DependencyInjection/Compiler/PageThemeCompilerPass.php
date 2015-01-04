@@ -6,9 +6,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
-class PageThemeCompilerPass implements CompilerPassInterface {
-
-    public function process(ContainerBuilder $container) {
+class PageThemeCompilerPass implements CompilerPassInterface
+{
+    public function process(ContainerBuilder $container)
+    {
         if (!$container->hasDefinition('zorbus.page.theme.compiler.config')) {
             return;
         }
@@ -21,5 +22,4 @@ class PageThemeCompilerPass implements CompilerPassInterface {
             $definition->addMethodCall('addTheme', array(new Reference($id)));
         }
     }
-
 }

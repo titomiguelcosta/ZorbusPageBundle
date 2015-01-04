@@ -21,10 +21,10 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-    jQuery.expr[":"].icontains = jQuery.expr.createPseudo(function (arg) {                                                                                                                                                                
-        return function (elem) {                                                            
-            return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;        
-        };                                                                                  
+    jQuery.expr[":"].icontains = jQuery.expr.createPseudo(function (arg) {
+        return function (elem) {
+            return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+        };
     });
     $(document).ready(function(){
         $(".available").draggable({
@@ -39,7 +39,7 @@
             }else{
                 $(".tab-pane li").css('display', 'none');
                 $(".tab-pane li:icontains("+text+")").css("display", "block");
-            }        
+            }
         });
         $(".blocks").droppable({
             accept: ".available",
@@ -147,7 +147,7 @@
         <form id="form-search" class="form-search pull-right">
             <input type="text" id="search-filter" class="input-large search-query" placeholder="Filtrar">
         </form>
-        
+
         <ul class="nav nav-tabs">
         {% for category in categories %}
             <li{% if loop.first %} class="active"{% endif %}><a href="#{{ category.category | lower }}" data-toggle="tab">{{ category.category | trans({}, 'ZorbusPageBundle') }}</a></li>

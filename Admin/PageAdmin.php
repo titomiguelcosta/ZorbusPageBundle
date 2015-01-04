@@ -15,45 +15,47 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Type;
 
-class PageAdmin extends Admin {
-
+class PageAdmin extends Admin
+{
     protected $baseRouteName = 'page_admin';
     protected $baseRoutePattern = 'page';
-    
-    public function configure() {
+
+    public function configure()
+    {
         $this->setTemplate('edit', 'ZorbusPageBundle:Admin:edit.html.twig');
     }
 
-    protected function configureFormFields(FormMapper $formMapper) {
+    protected function configureFormFields(FormMapper $formMapper)
+    {
         $formMapper
                 ->with('Information')
                 ->add('title', null, array(
                     'constraints' => array(
                         new NotBlank(),
-                        new Length(array('max' => 255))
+                        new Length(array('max' => 255)),
                     ),
                     'attr' => array(
-                        'title' => 'title'
-                    )
+                        'title' => 'title',
+                    ),
                 ))
                 ->add('subtitle', null, array(
                     'required' => false,
                     'constraints' => array(
-                        new Length(array('max' => 255))
-                    )
+                        new Length(array('max' => 255)),
+                    ),
                 ))
                 ->add('url', null, array(
                     'constraints' => array(
                         new NotBlank(),
-                        new Regex(array('pattern' => '/^\/([a-z0-9_\-]+\/?)*(#[a-z0-9_\-]+)?$/'))
-                    )
+                        new Regex(array('pattern' => '/^\/([a-z0-9_\-]+\/?)*(#[a-z0-9_\-]+)?$/')),
+                    ),
                 ))
                 ->add('theme', 'zorbus_page_themes', array(
                     'required' => true,
                     'label' => 'Theme',
                     'constraints' => array(
                         new NotBlank(),
-                    )
+                    ),
                 ))
                 ->end()
                 ->with('Configuration')
@@ -65,14 +67,14 @@ class PageAdmin extends Admin {
                     'attr' => array('class' => 'select2 span5'),
                     'constraints' => array(
                         new Type(array(
-                            'type' => $this->getClass()
-                                ))
-                    )
+                            'type' => $this->getClass(),
+                                )),
+                    ),
                 ))
                 ->add('redirect', null, array(
                     'constraints' => array(
-                        new Url()
-                    )
+                        new Url(),
+                    ),
                 ))
                 ->add('enabled', null, array('required' => false))
                 ->end()
@@ -85,21 +87,23 @@ class PageAdmin extends Admin {
                 ->add('cacheTtl', null, array(
                     'label' => 'Cache in seconds',
                     'constraints' => array(
-                        new Range(array('min' => 0))
-                    )
+                        new Range(array('min' => 0)),
+                    ),
                 ))
                 ->end()
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
         $datagridMapper
                 ->add('title')
                 ->add('url')
         ;
     }
 
-    protected function configureListFields(ListMapper $listMapper) {
+    protected function configureListFields(ListMapper $listMapper)
+    {
         $listMapper
                 ->addIdentifier('title')
                 ->add('url')
@@ -107,7 +111,8 @@ class PageAdmin extends Admin {
         ;
     }
 
-    public function configureShowFields(ShowMapper $filter) {
+    public function configureShowFields(ShowMapper $filter)
+    {
         $filter
                 ->add('title')
                 ->add('subtitle')
@@ -123,11 +128,11 @@ class PageAdmin extends Admin {
         ;
     }
 
-    protected function configureRoutes(RouteCollection $collection) {
+    protected function configureRoutes(RouteCollection $collection)
+    {
         parent::configureRoutes($collection);
-        $collection->add('pageBlockManage', $this->getRouterIdParameter() . '/block/manage');
+        $collection->add('pageBlockManage', $this->getRouterIdParameter().'/block/manage');
         $collection->add('pageBlockAssociate', 'block/associate');
         $collection->add('pageBlockUnassociate', 'block/unassociate');
     }
-
 }

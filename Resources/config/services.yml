@@ -4,12 +4,12 @@ parameters:
 
     zorbus.page.controller.class: ZorbusPageBundle:Admin
     zorbus.page_block.controller.class: SonataAdminBundle:CRUD
-    
+
     zorbus.page.router.class: Zorbus\PageBundle\Router\PageRouter
-        
+
     zorbus.page.theme.compiler.config.class: Zorbus\PageBundle\DependencyInjection\Compiler\PageThemeCompilerConfig
     zorbus.page.theme.form.type.class: Zorbus\PageBundle\Form\Type\PageThemesType
-    
+
     zorbus.page.theme.two_column.class: Zorbus\PageBundle\Theme\TwoColumnTheme
     zorbus.page.theme.two_column.enabled: true
     zorbus.page.theme.three_column.class: Zorbus\PageBundle\Theme\ThreeColumnTheme
@@ -39,13 +39,13 @@ services:
             - { name: zorbus.page.theme }
     zorbus.page.theme.three_column:
         class: %zorbus.page.theme.three_column.class%
-        arguments: 
+        arguments:
             - %zorbus.page.theme.three_column.enabled%
         tags:
             - { name: zorbus.page.theme }
     zorbus.page.router:
         class: %zorbus.page.router.class%
-        arguments: 
+        arguments:
             - @doctrine.orm.entity_manager
             - %zorbus.page.entities.page%
         tags:

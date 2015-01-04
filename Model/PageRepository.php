@@ -4,9 +4,10 @@ namespace Zorbus\PageBundle\Model;
 
 use Doctrine\ORM\EntityRepository;
 
-class PageRepository extends EntityRepository {
-
-    public function getBlocksByPageId($pageId) {
+class PageRepository extends EntityRepository
+{
+    public function getBlocksByPageId($pageId)
+    {
         $pageBlocks = $this
                 ->getEntityManager()
                 ->createQuery('SELECT pb FROM :entityName pb JOIN pb.page p JOIN pb.block b WHERE p.id=:pageId ORDER BY pb.location ASC, pb.position ASC')
@@ -21,5 +22,4 @@ class PageRepository extends EntityRepository {
 
         return $blocks;
     }
-
 }

@@ -12,22 +12,25 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Zorbus\PageBundle\Model\Page;
 
-class PageRouter implements RouterInterface {
-
+class PageRouter implements RouterInterface
+{
     protected $entityManager;
     protected $pageEntity;
     protected $context;
 
-    public function __construct(EntityManager $entityManager, $pageEntity) {
+    public function __construct(EntityManager $entityManager, $pageEntity)
+    {
         $this->entityManager = $entityManager;
         $this->pageEntity = $pageEntity;
     }
 
-    public function getRouteCollectionForRequest(Request $request) {
+    public function getRouteCollectionForRequest(Request $request)
+    {
         return $this->findManyByUrl($request->getPathInfo());
     }
 
-    public function findManyByUrl($url) {
+    public function findManyByUrl($url)
+    {
         $pages = $this
                 ->getEntityManager()
                 ->getRepository($this->pageEntity)
@@ -37,13 +40,14 @@ class PageRouter implements RouterInterface {
 
         foreach ($pages as $page) {
             $route = new Route($page->getUrl(), array('_controller' => 'ZorbusPageBundle:Page:execute', 'page' => $page));
-            $routeCollection->add('zorbus_page_' . $page->getId(), $route);
+            $routeCollection->add('zorbus_page_'.$page->getId(), $route);
         }
 
         return $routeCollection;
     }
 
-    public function getRoutesByNames($names, $parameters = array()) {
+    public function getRoutesByNames($names, $parameters = array())
+    {
         $routes = array();
 
         if (!is_array($names)) {
@@ -57,7 +61,8 @@ class PageRouter implements RouterInterface {
         return $routes;
     }
 
-    public function getRouteByName($name, $parameters = array()) {
+    public function getRouteByName($name, $parameters = array())
+    {
         if (preg_match('/^zorbus_page_/', $name)) {
             $id = (int) str_replace('zorbus_page_', '', $name);
             $page = $this
@@ -75,7 +80,8 @@ class PageRouter implements RouterInterface {
         throw new RouteNotFoundException();
     }
 
-    public function getRouteCollection() {
+    public function getRouteCollection()
+    {
         $pages = $this
                 ->getEntityManager()
                 ->getRepository($this->pageEntity)
@@ -87,16 +93,17 @@ class PageRouter implements RouterInterface {
             $route = new Route($page->getUrl(), array(
                 '_controller' => 'ZorbusPageBundle:Page:execute',
                 'page' => $page,
-                '_route' => 'zorbus_page_' . $page->getId()
+                '_route' => 'zorbus_page_'.$page->getId(),
             ));
 
-            $routeCollection->add('zorbus_page_' . $page->getId(), $route);
+            $routeCollection->add('zorbus_page_'.$page->getId(), $route);
         }
 
         return $routeCollection;
     }
 
-    public function generate($name, $parameters = array(), $absolute = false) {
+    public function generate($name, $parameters = array(), $absolute = false)
+    {
         if (preg_match('/^zorbus_page_/', $name)) {
             $id = (int) str_replace('zorbus_page_', '', $name);
             $page = $this
@@ -112,7 +119,8 @@ class PageRouter implements RouterInterface {
         throw new RouteNotFoundException();
     }
 
-    public function match($pathinfo) {
+    public function match($pathinfo)
+    {
         $page = $this
                 ->getEntityManager()
                 ->getRepository($this->pageEntity)
@@ -122,23 +130,25 @@ class PageRouter implements RouterInterface {
             return array(
                 '_controller' => 'ZorbusPageBundle:Page:execute',
                 'page' => $page,
-                '_route' => 'zorbus_page_' . $page->getId()
+                '_route' => 'zorbus_page_'.$page->getId(),
             );
         }
 
         throw new ResourceNotFoundException('No page found');
     }
 
-    public function setContext(RequestContext $context) {
+    public function setContext(RequestContext $context)
+    {
         $this->context = $context;
     }
 
-    public function getContext() {
+    public function getContext()
+    {
         return $this->context;
     }
 
-    public function getEntityManager() {
+    public function getEntityManager()
+    {
         return $this->entityManager;
     }
-
 }

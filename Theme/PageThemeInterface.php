@@ -2,8 +2,8 @@
 
 namespace Zorbus\PageBundle\Theme;
 
-interface PageThemeInterface {
-
+interface PageThemeInterface
+{
     /**
      * @return string Id of the service defined in the container
      * @example zorbus.page.theme.three_column

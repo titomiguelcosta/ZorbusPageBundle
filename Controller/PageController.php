@@ -13,22 +13,23 @@ use Zorbus\BlockBundle\Entity\Block;
 use Zorbus\PageBundle\Theme\PageThemeInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class PageController extends Controller {
-
+class PageController extends Controller
+{
     /**
      * Renders a page based on the page id
-     * 
-     * @param string $pageSlug
+     *
+     * @param  string                $pageSlug
      * @return Response
      * @throws NotFoundHttpException
-     * 
+     *
      * @Route("/page/{pageSlug}/render", name="page_render")
      * @Method({"GET"})
      */
-    public function renderAction(Request $request, $pageSlug) {
+    public function renderAction(Request $request, $pageSlug)
+    {
         $pageEntityName = $this->container->getParameter('zorbus.page.entities.page');
         $pageBlockEntityName = $this->container->getParameter('zorbus.page.entities.page_block');
-        
+
         /** @var Page */
         $page = $this
                 ->getDoctrine()
@@ -40,13 +41,13 @@ class PageController extends Controller {
             if ($page->isRedirect()) {
                 return $this->redirect($page->getRedirect());
             }
-            
+
             /** @var array<PageBlock> */
             $pageBlocks = $this
                     ->getDoctrine()
                     ->getRepository($pageBlockEntityName)
                     ->getByPageWithBlocks($page->getId());
-            
+
             foreach ($pageBlocks as $pageBlock) {
                 /** @var Block */
                 $block = $pageBlock->getBlock();
@@ -63,7 +64,7 @@ class PageController extends Controller {
                 'page' => $page,
                 'blocks' => $blocks,
                 'theme' => $theme,
-                'request' => $request
+                'request' => $request,
             ));
             $response->setTtl($page->getCacheTtl());
 
@@ -74,12 +75,13 @@ class PageController extends Controller {
     }
 
     /**
-     * 
-     * @param Page $page
+     *
+     * @param  Page $page
      * @return type
      * @throws type
      */
-    public function executeAction(Request $request, Page $page = null) {
+    public function executeAction(Request $request, Page $page = null)
+    {
         return $this->renderAction($request, $page->getSlug());
     }
 }

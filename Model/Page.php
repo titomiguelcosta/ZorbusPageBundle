@@ -5,16 +5,15 @@ namespace Zorbus\PageBundle\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
-use Zorbus\PageBundle\Model\PageInterface;
-use Zorbus\PageBundle\Model\PageBlockInterface;
 
 /**
  * @Gedmo\Tree(type="nested")
  * @ORM\MappedSuperclass
  */
-abstract class Page implements PageInterface {
-
-    public function __toString() {
+abstract class Page implements PageInterface
+{
+    public function __toString()
+    {
         return $this->getTitle();
     }
 
@@ -145,246 +144,293 @@ abstract class Page implements PageInterface {
      */
     protected $updated;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->children = new ArrayCollection();
         $this->pageBlocks = new ArrayCollection();
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setTitle($title) {
+    public function setTitle($title)
+    {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
-    public function setSubtitle($subtitle) {
+    public function setSubtitle($subtitle)
+    {
         $this->subtitle = $subtitle;
 
         return $this;
     }
 
-    public function getSubtitle() {
+    public function getSubtitle()
+    {
         return $this->subtitle;
     }
 
-    public function setLang($lang) {
+    public function setLang($lang)
+    {
         $this->lang = $lang;
 
         return $this;
     }
 
-    public function getLang() {
+    public function getLang()
+    {
         return $this->lang;
     }
 
-    public function setSlug($slug) {
+    public function setSlug($slug)
+    {
         $this->slug = $slug;
 
         return $this;
     }
 
-    public function getSlug() {
+    public function getSlug()
+    {
         return $this->slug;
     }
 
-    public function setUrl($url) {
+    public function setUrl($url)
+    {
         $this->url = $url;
 
         return $this;
     }
 
-    public function getUrl() {
+    public function getUrl()
+    {
         return $this->url;
     }
 
-    public function setTheme($theme) {
+    public function setTheme($theme)
+    {
         $this->theme = $theme;
 
         return $this;
     }
 
-    public function getTheme() {
-
+    public function getTheme()
+    {
         return $this->theme;
     }
 
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
 
         return $this;
     }
 
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
-    public function setRedirect($redirect) {
+    public function setRedirect($redirect)
+    {
         $this->redirect = $redirect;
 
         return $this;
     }
 
-    public function getRedirect() {
+    public function getRedirect()
+    {
         return $this->redirect;
     }
 
-    public function setSearchTerms($searchTerms) {
+    public function setSearchTerms($searchTerms)
+    {
         $this->searchTerms = $searchTerms;
 
         return $this;
     }
 
-    public function getSearchterms() {
+    public function getSearchterms()
+    {
         return $this->searchTerms;
     }
 
-    public function setSeoDescription($seoDescription) {
+    public function setSeoDescription($seoDescription)
+    {
         $this->seoDescription = $seoDescription;
 
         return $this;
     }
 
-    public function getSeoDescription() {
+    public function getSeoDescription()
+    {
         return $this->seoDescription;
     }
 
-    public function setSeoKeywords($seoKeywords) {
+    public function setSeoKeywords($seoKeywords)
+    {
         $this->seoKeywords = $seoKeywords;
 
         return $this;
     }
 
-    public function getSeoKeywords() {
+    public function getSeoKeywords()
+    {
         return $this->seoKeywords;
     }
 
-    public function setCacheTtl($cacheTtl) {
+    public function setCacheTtl($cacheTtl)
+    {
         $this->cacheTtl = $cacheTtl;
 
         return $this;
     }
 
-    public function getCacheTtl() {
+    public function getCacheTtl()
+    {
         return $this->cacheTtl;
     }
 
-    public function addPageBlock(PageBlockInterface $pageBlocks) {
+    public function addPageBlock(PageBlockInterface $pageBlocks)
+    {
         $this->pageBlocks[] = $pageBlocks;
 
         return $this;
     }
 
-    public function removePageBlock(PageBlockInterface $pageBlocks) {
+    public function removePageBlock(PageBlockInterface $pageBlocks)
+    {
         $this->pageBlocks->removeElement($pageBlocks);
     }
 
-    public function getPageBlocks() {
+    public function getPageBlocks()
+    {
         return $this->pageBlocks;
     }
 
-    public function setEnabled($enabled) {
+    public function setEnabled($enabled)
+    {
         $this->enabled = (boolean) $enabled;
 
         return $this;
     }
 
-    public function getEnabled() {
+    public function getEnabled()
+    {
         return $this->enabled;
     }
 
-    public function setLft($lft) {
+    public function setLft($lft)
+    {
         $this->lft = $lft;
 
         return $this;
     }
 
-    public function getLft() {
+    public function getLft()
+    {
         return $this->lft;
     }
 
-    public function setRgt($rgt) {
+    public function setRgt($rgt)
+    {
         $this->rgt = $rgt;
 
         return $this;
     }
 
-    public function getRgt() {
+    public function getRgt()
+    {
         return $this->rgt;
     }
 
-    public function setRoot($root) {
+    public function setRoot($root)
+    {
         $this->root = $root;
 
         return $this;
     }
 
-    public function getRoot() {
+    public function getRoot()
+    {
         return $this->root;
     }
 
-    public function setLvl($lvl) {
+    public function setLvl($lvl)
+    {
         $this->lvl = $lvl;
 
         return $this;
     }
 
-    public function getLvl() {
+    public function getLvl()
+    {
         return $this->lvl;
     }
 
-    public function addChildren(PageInterface $children) {
+    public function addChildren(PageInterface $children)
+    {
         $this->children[] = $children;
 
         return $this;
     }
 
-    public function removeChildren(PageInterface $children) {
+    public function removeChildren(PageInterface $children)
+    {
         $this->children->removeElement($children);
     }
 
-    public function getChildren() {
+    public function getChildren()
+    {
         return $this->children;
     }
 
-    public function setParent(PageInterface $parent = null) {
+    public function setParent(PageInterface $parent = null)
+    {
         $this->parent = $parent;
 
         return $this;
     }
 
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 
-    public function setCreated(\DateTime $created) {
+    public function setCreated(\DateTime $created)
+    {
         $this->created = $created;
 
         return $this;
     }
 
-    public function getCreated() {
+    public function getCreated()
+    {
         return $this->created;
     }
 
-    public function setUpdatedAt($updated) {
+    public function setUpdatedAt($updated)
+    {
         $this->updated = $updated;
 
         return $this;
     }
 
-    public function getUpdated() {
+    public function getUpdated()
+    {
         return $this->updated;
     }
 
-    public function isRedirect() {
+    public function isRedirect()
+    {
         return !empty($this->redirect);
     }
-
 }

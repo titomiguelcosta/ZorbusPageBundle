@@ -11,9 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 
-class AdminController extends CRUDController {
-
-    public function pageBlockManageAction($id) {
+class AdminController extends CRUDController
+{
+    public function pageBlockManageAction($id)
+    {
         $page = $this
                 ->getDoctrine()
                 ->getRepository($this->container->getParameter('zorbus.page.entities.page'))
@@ -57,11 +58,12 @@ class AdminController extends CRUDController {
             'unassociatedBlocks' => $unassociatedBlocks,
             'slots' => $slots,
             'pageBlocks' => $associatedPageBlocks,
-            'categories' => $blockCategories
+            'categories' => $blockCategories,
         ));
     }
 
-    public function pageBlockAssociateAction(Request $request) {
+    public function pageBlockAssociateAction(Request $request)
+    {
         $pageId = $request->query->get('pageId');
         $blockId = $request->query->get('blockId');
         $slot = $request->query->get('slot');
@@ -76,9 +78,7 @@ class AdminController extends CRUDController {
         try {
             $pageBlock = $this->getDoctrine()->getRepository('ZorbusPageBundle:PageBlock')->findOneBy(array('page' => $page, 'block' => $block));
         } catch (NoResultException $exception) {
-            
         } catch (NonUniqueResultException $exception) {
-            
         }
 
         if (!$pageBlock instanceof PageBlock) {
@@ -97,7 +97,8 @@ class AdminController extends CRUDController {
         return new JsonResponse(array('code' => 200, 'message' => 'Block associated to the page.'));
     }
 
-    public function pageBlockUnassociateAction(Request $request) {
+    public function pageBlockUnassociateAction(Request $request)
+    {
         $pageId = $request->query->get('pageId');
         $blockId = $request->query->get('blockId');
 
@@ -114,5 +115,4 @@ class AdminController extends CRUDController {
 
         return new JsonResponse(array('code' => 200, 'message' => 'Block removed from the page.'));
     }
-
 }

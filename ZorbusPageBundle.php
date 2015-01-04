@@ -8,10 +8,8 @@ use Zorbus\PageBundle\DependencyInjection\Compiler\PageThemeCompilerPass;
 
 class ZorbusPageBundle extends Bundle
 {
-
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new PageThemeCompilerPass());
     }
-
 }

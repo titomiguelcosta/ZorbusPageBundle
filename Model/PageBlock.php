@@ -4,15 +4,13 @@ namespace Zorbus\PageBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Zorbus\PageBundle\Model\PageInterface;
-use Zorbus\PageBundle\Model\PageBlockInterface;
 use Zorbus\BlockBundle\Model\BlockInterface;
 
 /**
  * @ORM\MappedSuperclass
  */
-abstract class PageBlock implements PageBlockInterface {
-
+abstract class PageBlock implements PageBlockInterface
+{
     /**
      * @ORM\ManyToOne(targetEntity="Zorbus\PageBundle\Model\PageInterface", inversedBy="pageBlocks")
      * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
@@ -50,58 +48,68 @@ abstract class PageBlock implements PageBlockInterface {
      */
     protected $enabled;
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setPosition($position) {
+    public function setPosition($position)
+    {
         $this->position = (integer) $position;
 
         return $this;
     }
 
-    public function getPosition() {
+    public function getPosition()
+    {
         return $this->position;
     }
 
-    public function setSlot($slot) {
+    public function setSlot($slot)
+    {
         $this->slot = $slot;
 
         return $this;
     }
 
-    public function getSlot() {
+    public function getSlot()
+    {
         return $this->slot;
     }
 
-    public function setEnabled($enabled) {
+    public function setEnabled($enabled)
+    {
         $this->enabled = $enabled;
 
         return $this;
     }
 
-    public function getEnabled() {
+    public function getEnabled()
+    {
         return $this->enabled;
     }
 
-    public function setPage(PageInterface $page) {
+    public function setPage(PageInterface $page)
+    {
         $this->page = $page;
 
         return $this;
     }
 
-    public function getPage() {
+    public function getPage()
+    {
         return $this->page;
     }
 
-    public function setBlock(BlockInterface $block) {
+    public function setBlock(BlockInterface $block)
+    {
         $this->block = $block;
 
         return $this;
     }
 
-    public function getBlock() {
+    public function getBlock()
+    {
         return $this->block;
     }
-
 }

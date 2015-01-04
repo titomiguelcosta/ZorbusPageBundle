@@ -18,29 +18,29 @@ class PageBlockAdmin extends Admin
                     'required' => true,
                     'constraints' => array(
                         new NotBlank(),
-                        new MaxLength(array('limit' => 255))
-                    )
+                        new MaxLength(array('limit' => 255)),
+                    ),
                 ))
             ->add('block', null, array(
                 'group_by' => 'service',
                 'required' => true,
                 'constraints' => array(
                     new NotBlank(),
-                    new MaxLength(array('limit' => 255))
-                )
+                    new MaxLength(array('limit' => 255)),
+                ),
             ))
             ->add('slot', null, array(
                 'required' => true,
                 'constraints' => array(
                     new NotBlank(),
-                    new MaxLength(array('limit' => 255))
-                )
+                    new MaxLength(array('limit' => 255)),
+                ),
             ))
             ->add('position', null, array(
                 'required' => false,
                 'constraints' => array(
-                    new Min(array('limit' => 0))
-                )
+                    new Min(array('limit' => 0)),
+                ),
             ))
         ;
     }

@@ -2,5 +2,6 @@
 
 namespace Zorbus\PageBundle\Model;
 
-interface PageBlockInterface {
+interface PageBlockInterface
+{
 }

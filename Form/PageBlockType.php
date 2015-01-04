@@ -20,7 +20,7 @@ class PageBlockType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Zorbus\PageBundle\Entity\PageBlock'
+            'data_class' => 'Zorbus\PageBundle\Entity\PageBlock',
         ));
     }
 

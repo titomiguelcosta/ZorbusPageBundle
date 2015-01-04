@@ -2,7 +2,7 @@
 
 namespace Zorbus\PageBundle\Model;
 
-interface PageInterface {
-
+interface PageInterface
+{
     public function isRedirect();
 }
